@@ -23,7 +23,7 @@ startMenu = menuStart.MenuStart()
 
 ###Loop principal do game ###################################
 while True:
-   startMenu.show(tela)
+   startMenu.show(window)
    pygame.display.flip()
    pygame.display.update()
    for event in pygame.event.get():
