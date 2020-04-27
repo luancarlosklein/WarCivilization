@@ -22,4 +22,3 @@ class Menu:
     def show(self):
         b = 1
         ##Método que mostra o menu na tela
-    
