@@ -4,6 +4,7 @@ from random import *
 from pygame.locals import *
 import button
 import menuStart
+from inGameMenu import inGameMenu
 
 ##Definições iniciais do pygame#############
 heigth = 650
@@ -19,11 +20,11 @@ pygame.display.update()
 ######################################################
 
 stop = False
-startMenu = menuStart.MenuStart()
+startMenu = inGameMenu()
 
 ###Loop principal do game ###################################
 while True:
-   startMenu.show(window)
+   startMenu.show(screen)
    pygame.display.flip()
    pygame.display.update()
    for event in pygame.event.get():
