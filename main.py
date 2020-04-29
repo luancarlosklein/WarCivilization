@@ -5,6 +5,7 @@ from pygame.locals import *
 import button
 import menuStart
 from inGameMenu import inGameMenu
+from playerInfoSelector import playerInfoSelector
 
 ##Definições iniciais do pygame#############
 heigth = 650
@@ -21,6 +22,8 @@ pygame.display.update()
 
 stop = False
 startMenu = inGameMenu()
+selector =  playerInfoSelector()
+selector.chooseFlag(screen)
 
 ###Loop principal do game ###################################
 while True:

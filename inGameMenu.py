@@ -20,15 +20,15 @@ class inGameMenu(menu.Menu):
 		fonte=pygame.font.get_default_font()              ##### carrega com a fonte padrão
 		fontesys=pygame.font.SysFont(fonte, 60)           ##### usa a fonte padrão
 		txt= ('NAME'+'\'s TURN')                          ##### armazena o texto
-		txtscreen = fontesys.render(txt, 1, (0,0,0))  	  ##### renderiza o texto na cor desejada
-		screen.blit(txtscreen,(715,270))                  ##### coloca na posição 50,900 (tela FHD)
+		txtscreen = fontesys.render(txt, 1, (0,0,0))  	  ##### renderiza o texto
+		screen.blit(txtscreen,(715,270))                  ##### coloca na tela
 
 	################################################################################################################################
 
 
 	############################################ imprime o brasão do jogador ########################################################			
 
-		flag = pygame.image.load(os.path.join("images", "flag1.jfif")).convert_alpha()
+		flag = pygame.image.load(os.path.join("images", "flag1.png")).convert_alpha()
 		flag = pygame.transform.scale(flag,(245 , 291))
 		screen.blit(flag,(715,350))            
 
