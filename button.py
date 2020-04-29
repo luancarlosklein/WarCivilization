@@ -10,7 +10,7 @@ class Button:
         self.action = actionE
 
     def show(self, screen):
-        screen.blit(self.background, self.pos)
+        screen.blit(self.background, self.pos)        
         
     def getPos(self):
         return self.pos

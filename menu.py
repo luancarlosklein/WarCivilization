@@ -4,6 +4,7 @@ class Menu:
     def __init__(self, backImage):
         self.background = pygame.image.load(backImage).convert_alpha()
         self.buttons = []
+        self.background = pygame.transform.scale(self.background, (1000, 650))
         
     ##Método que verifica em qual botão foi clicado
     def checkClick(self, pos):
@@ -16,6 +17,8 @@ class Menu:
                     return i
         return False
 
+    def checkMouseOn(self, pos):
+        return self.checkClick(pos)
     
         
         

@@ -4,11 +4,14 @@ from random import *
 from pygame.locals import *
 import button
 import menuStart
-from inGameMenu import inGameMenu
+from menuStart import MenuStart
+
+from menuPause import MenuPause
 
 ##Definições iniciais do pygame#############
 heigth = 650
 width = 1000
+
 pygame.init() ##Inicia os módulos do PYGAME
 window = pygame.display.set_mode((width, heigth)) ##Cria uma tela.. X e Y
 pygame.display.set_caption("War")##Nomeia a Janela
@@ -20,16 +23,18 @@ pygame.display.update()
 ######################################################
 
 stop = False
-startMenu = inGameMenu()
+startMenu = MenuPause()
 
 ###Loop principal do game ###################################
 while True:
-   startMenu.show(screen)
+   
    pygame.display.flip()
    pygame.display.update()
    for event in pygame.event.get():
+        startMenu.show(screen, pygame.mouse.get_pos())
         if event.type == pygame.MOUSEBUTTONDOWN:##Verifica o clique do mouse
             startMenu.checkClick(pygame.mouse.get_pos())
+            print("POSITION:", pygame.mouse.get_pos())
 
         ##Verifica se o usuario apertou a tecla Q 
         if event.type == pygame.KEYDOWN:
