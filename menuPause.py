@@ -24,10 +24,10 @@ class MenuPause(menu.Menu):
        t4r = font.render("Exit", True, (127, 0, 0))       
        
 #######################################################################################################     
-       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (440, 180), 40, 300, "LUTARRR CARAI"))
-       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (440, 230), 40, 300, "LUTARRR CARAI"))
-       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (440, 280), 40, 300, "LUTARRR CARAI"))
-       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (440, 330), 40, 300, "LUTARRR CARAI"))
+       #self.buttons.append(button.Button(os.path.join("images", "transp.png"), (440, 180), 40, 300, "LUTARRR CARAI"))
+       #self.buttons.append(button.Button(os.path.join("images", "transp.png"), (440, 230), 40, 300, "LUTARRR CARAI"))
+      # self.buttons.append(button.Button(os.path.join("images", "transp.png"), (440, 280), 40, 300, "LUTARRR CARAI"))
+      # self.buttons.append(button.Button(os.path.join("images", "transp.png"), (440, 330), 40, 300, "LUTARRR CARAI"))
        
 ###########Utiliza essas duas listas, uma com a escrita normal, e outro com ela em vermelho
        self.texts = [t1, t2, t3, t4]
