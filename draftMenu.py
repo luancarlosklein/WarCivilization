@@ -2,7 +2,7 @@ import menu
 from button import Button
 import os
 
-class inGameMenu(menu.Menu):
+class DraftMenu(menu.Menu):
 	def __init__(self):
 		super().__init__(os.path.join("images", "tavredonda.jpg"))
 		self.buttons.append(Button(os.path.join("images", "draft.jpg"), (10, 70), 50, 201, "MAIS NEGO"))

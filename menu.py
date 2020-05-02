@@ -13,7 +13,7 @@ class Menu:
             sizeButton = i.getSize()
             if pos[0] <= (posButton[0] + sizeButton[0]) and pos[0] >= posButton[0]:
                 if pos[1] <= (posButton[1] + sizeButton[1]) and pos[1] >= posButton[1]:
-                    print(i.getAction())
+                    #print(i.getAction())
                     return i
         return False
 
