@@ -8,6 +8,10 @@ from menuStart import MenuStart
 
 from menuPause import MenuPause
 
+from inGameMenu import InGameMenu
+
+from gameManager import GameManager
+
 ##Defini��es iniciais do pygame#############
 heigth = 650
 width = 1000
@@ -24,6 +28,8 @@ pygame.display.update()
 
 stop = False
 startMenu = MenuPause()
+game = GameManager (1, screen)
+#game.gameLoop()
 
 
 ###Loop principal do game ###################################
