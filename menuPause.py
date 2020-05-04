@@ -4,8 +4,8 @@ import os
 import pygame
 
 class MenuPause(menu.Menu):
-    def __init__(self):
-       super().__init__(os.path.join("images", "backgroundMenuPause.png")) ##Chama a construtora da classe base
+    def __init__(self, soundBack = "none", soundEff = "none", volBack = 0, volEff = 0):
+       super().__init__(os.path.join("images", "backgroundMenuPause.png"), soundBack, soundEff, volBack, volEff) ##Chama a construtora da classe base
 
 ##Nesse menu, pra poupar memória, escrevemos com o pygame na tela, e carregamos apenas uma imagem trasnparente, para
 ##o sistema pegar o tamanho do botão etc
@@ -34,10 +34,11 @@ class MenuPause(menu.Menu):
        self.textsRed = [t1r, t2r, t3r, t4r]
 
 ##Configuração de musica de fundo
-       pygame.mixer.music.set_volume(0.5)
-       pygame.mixer.music.load(os.path.join("sounds", "startMenuGame.mp3"))
+       pygame.mixer.music.set_volume(self.volumeBackground)
+       pygame.mixer.music.load(self.soundBackground)
        pygame.mixer.music.play(-1)
-       self.soundOn = pygame.mixer.Sound(os.path.join("sounds", "mousePass.ogg"))
+       print(self.soundEffect)
+       self.soundOn = pygame.mixer.Sound(self.soundEffect)
        self.soundOnDone = False
 
 
@@ -47,7 +48,7 @@ class MenuPause(menu.Menu):
         ##Ve onde que o mouse esta
         result = self.checkMouseOn(posMouse)
         ##Faz o efeito do mouse passando por cima
-        if (result  != False):
+        if (result  >= 0):
             if (not self.soundOnDone):
                 self.soundOn.play()
             self.soundOnDone = True
@@ -60,14 +61,14 @@ class MenuPause(menu.Menu):
         toPos = (0,0)
         for i in self.buttons:
             pos = i.getPos()
-            if i == result:
+            if i == self.buttons[result] and result >= 0:
                 toChangeColor = cont
                 toPos = pos
             else:
                  screen.blit(self.texts[cont], pos)
             cont += 1
        ##Se o mouse estiver sobre algum botão, ele mostra a versão em vermelha
-        if toChangeColor < len(self.buttons):
+        if toChangeColor < len(self.buttons) and result >= 0:
             screen.blit(self.textsRed[toChangeColor], toPos)
     
 

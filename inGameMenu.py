@@ -57,7 +57,13 @@ class InGameMenu(menu.Menu):
 			if event.type == pygame.MOUSEBUTTONDOWN:##Verifica o clique do mouse
 				operation = self.checkClick(pygame.mouse.get_pos())
 				return operation
-	
+			
+	################################# MEXIDA LUAN ############################################################
+			##Verifica se a tecla clicada é o esc, e retorna um valor especifico (55)
+			if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_ESCAPE:
+                                        return 55
+	#########################################################################################################
 			if event.type == pygame.QUIT: ## Verifica se o usuario clicou no X vermelho para fechar
 				pygame.quit()
 				stop = True
