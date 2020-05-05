@@ -7,9 +7,9 @@ class MenuStart(menu.Menu):
     def __init__(self, backImage = "none", soundBack = "none", soundEff = "none", volBack = 0, volEff = 0):
         super().__init__(os.path.join("images", "startMenuBack.jpg"), soundBack, soundEff, volBack, volEff) ##Chama a construtora da classe base
         ##Salva os botões utilizados
-        self.buttons.append(button.Button(os.path.join("images", "btgMachone.png"), (450, 420), 130, 390, "Play"))
-        self.buttons.append(button.Button(os.path.join("images", "buttonPicture.png"), (479, 100), 300, 300, "See best results"))
-        self.buttons.append(button.Button(os.path.join("images", "buttonDoor.png"), (0, 100), 475, 100, "Exit"))
+        self.buttons.append(button.Button(os.path.join("images", "btgMachone.png"), (450, 420), 130, 390, "newgame"))
+        self.buttons.append(button.Button(os.path.join("images", "buttonPicture.png"), (479, 100), 300, 300, "results"))
+        self.buttons.append(button.Button(os.path.join("images", "buttonDoor.png"), (0, 100), 475, 100, "exit"))
         ##Configurações da musica de fundo
         pygame.mixer.music.set_volume(self.volumeBackground)
         pygame.mixer.music.load(os.path.join("sounds", "startMenuGame.mp3"))

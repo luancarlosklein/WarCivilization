@@ -29,7 +29,7 @@ class GameManager ():
       ##Ativa a variavel para quando for chamado de mais uma vez, voltar a executar o loop
       self.active = True
       ##Variavel usada para retornar o valor de pause
-      pause = 55
+      pause = "pause"
       ###################################################################################	
       showing = field		
       i=0
@@ -47,6 +47,7 @@ class GameManager ():
             ##Verifica se o retorno foi pause (cliclado na tecla esc), se sim, retorna o valor (para o loop)
             elif (operation == pause):
                self.active = False
+               print(pause)
                return pause
             elif (operation == 0):
                showing = field

@@ -63,7 +63,7 @@ class InGameMenu(menu.Menu):
 ##Verifica se a tecla clicada é o esc, e retorna um valor especifico (55)
          if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-               return 55
+               return "pause"
 #########################################################################################################
          if event.type == pygame.QUIT: ## Verifica se o usuario clicou no X vermelho para fechar
             pygame.quit()

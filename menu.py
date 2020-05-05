@@ -11,7 +11,7 @@ class Menu:
         self.volumeEffect = volEff
         
     ##Método que verifica em qual botão foi clicado
-    def checkClick(self, pos):
+    def checkMouseOn(self, pos):
         cont = 0
         for i in self.buttons:
             posButton = i.getPos()
@@ -23,8 +23,13 @@ class Menu:
             cont += 1
         return -1
 
-    def checkMouseOn(self, pos):
-        return self.checkClick(pos)
+    def checkClick(self, pos):
+        return self.checkMouseOn(pos)
+
+    def actionButtonClicked(self, pos):
+        i = self.checkMouseOn(pos)
+        if i != -1:
+            return self.buttons[i].getAction()
     
     def show(self):
         b = 1
