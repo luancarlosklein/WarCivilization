@@ -27,8 +27,8 @@ pygame.display.update()
 ######################################################
 
 stop = False
-startMenu = MenuStart(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 1)
-pauseMenu = MenuPause(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 1)
+startMenu = MenuStart(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1)
+pauseMenu = MenuPause(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1)
 game = GameManager (1, screen)
 #game.gameLoop()
 
