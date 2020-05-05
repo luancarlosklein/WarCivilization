@@ -30,7 +30,6 @@ stop = False
 startMenu = MenuStart(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 1)
 pauseMenu = MenuPause(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 1)
 game = GameManager (1, screen)
-#game.gameLoop()
 
 pages = [startMenu, game, pauseMenu]
 activeNow = 0
@@ -43,7 +42,7 @@ while True:
    for event in pygame.event.get():
         click = -1
         
-        ##Verifica se não ta no game, no caso de resumo etc. O game não tem um show!
+        ##Verifica se nï¿½o ta no game, no caso de resumo etc. O game nï¿½o tem um show!
         if activeNow != 1:
            gameReturn = -1
            pages[activeNow].show(screen, pygame.mouse.get_pos())
@@ -53,33 +52,33 @@ while True:
                #print("POSITION:", pygame.mouse.get_pos())
  
     
-        ## Está no menuStart e foi clicado o foi clicado na porta para sair
+        ## Estï¿½ no menuStart e foi clicado o foi clicado na porta para sair
         if activeNow == 0 and click == 2:
             pygame.quit()
             stop = True
 
-       ## Está no menuStart e foi clicado o botão de play
+       ## Estï¿½ no menuStart e foi clicado o botï¿½o de play
         elif activeNow == 0 and click == 0:
            activeNow = 1
            window.fill(color_white)
            gameReturn = game.gameLoop()
 
 
-        ##Está no jogo e foi dado esc
+        ##Estï¿½ no jogo e foi dado esc
         elif activeNow == 1 and gameReturn == 55:
            print("PAUSEEE")
            activeNow = 2
 
-        ##Está no menu pause e foi clicado no botão exit
+        ##Estï¿½ no menu pause e foi clicado no botï¿½o exit
         elif activeNow == 2 and click == 3:
            pygame.quit()
            stop = True
 
-        ##Está no menu pause e foi clicado no botão main game
+        ##Estï¿½ no menu pause e foi clicado no botï¿½o main game
         elif activeNow == 2 and click == 2:
            activeNow = 0
 
-        ##Está no menu pause e foi clicado no botão resume
+        ##Estï¿½ no menu pause e foi clicado no botï¿½o resume
         elif activeNow == 2 and click == 0:
            print("RESUMEEE")
            activeNow = 1
@@ -91,6 +90,7 @@ while True:
             pygame.quit()
             stop = True
 
+   time.sleep(0.03)
    if stop:
       break
 ####################################################################
