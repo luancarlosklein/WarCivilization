@@ -1,4 +1,5 @@
 import pygame
+import random
 from hexagon import hexagon
 
 class mapManager:
@@ -9,27 +10,50 @@ class mapManager:
 		self.nRow = 19			# Numero de hexagonos por linha
 		self.hexaLen = 30
 		self.lastPos = [0,0]
+		self.step = 5
 		self.rmClick = False	# Flag para o click do botao direito do mouse
+		self.biomes = ["plain", "forest", "snow", "desert"]
+		self.biomes = {
+			"plain" : (153,255,51),
+			"forest": (0,51,0),
+			"snow" : (220,255,255),
+			"desert" : (219,191, 28)
+		}
+
+		#	Apenas para teste
+		self.owners = ["France", "Brazil", "USA"]
+
+		self.surface = pygame.Surface((260,160), pygame.SRCALPHA)
+
+		pygame.draw.polygon(self.surface, (255,0,0), [(130 + 0 - (1.1547*30/2),80 + 0 -30),(130 + 0 -(1.1547*30),
+		80 + 0 ),(130 + 0 -(1.1547*30/2),80 + 0 +30),(130 + 0 +(1.1547*30/2),80 + 0 +30),
+		(130 + 0 +(1.1547*30),80 + 0 ),(130 + 0 +(1.1547*30/2),80 + 0 -30)])
+
+		self.alpha_surf = pygame.Surface((260,160), pygame.SRCALPHA)
+		self.alpha_surf.fill((255,255,255,120))
+
+		self.surface.blit(self.alpha_surf, (0,0), special_flags=pygame.BLEND_RGBA_MULT)
 
 		deslocate = 1
 		pos = [85,50]
 		start = [85,50]
-		color = [0,255,0]
 
 		for i in range (self.nRow):
 			for j in range (self.nCol):
-				self.hexagons.append(hexagon(0, pos, 0, 0, 0, self.hexaLen, color))
+				biome = random.choice(list(self.biomes))
+				owner = random.choice(list(self.owners))
+				self.hexagons.append(hexagon(pos, biome, owner, 0, self.hexaLen))
 				pos = [pos[0] + 3*self.hexagons[0].mod*self.hexaLen, pos[1]]
 			if not deslocate:
-				self.hexagons.append(hexagon(0, pos, 0, 0, 0, self.hexaLen, color))
+				biome = random.choice(list(self.biomes))
+				owner = random.choice(list(self.owners))
+				self.hexagons.append(hexagon(pos, biome, owner, 0, self.hexaLen))
 			pos = [start[0], pos[1]+self.hexagons[0].length]
 			if (deslocate):
-				pos[0] -= 1.5*self.hexagons[0].mod*self.hexaLen
+				pos[0] -= 1.5*self.hexagons[0].mod*self.hexagons[0].getLen()
 				deslocate = 0
-				color = [50,50,50]
 			else:
 				deslocate = 1
-				color = [50,255,50]
 
 	def set_nCol(self, num):
 		self.nCol = num
@@ -38,9 +62,14 @@ class mapManager:
 		self.nRow = num
 	
 	def show(self, screen):
+		#rect = self.surface.get_rect()
+
+		pygame.draw.rect(screen, (9,46,255), (0, 0, 1920, 1080))
 		for hexagon in self.hexagons:
-			hexagon.show(screen, self.hexaLen)
+			hexagon.show(screen)
 		self.check_translation()
+		#screen.blit(self.surface, rect)
+		
 
 	def resizeHexagons(self):
 		i = 0
@@ -48,7 +77,7 @@ class mapManager:
 		pos = self.hexagons[0].center
 		start = self.hexagons[0].center
 		deslocate = 1
-		lenght = self.hexaLen
+		lenght = self.hexagons[0].getLen()
 		mod = self.hexagons[0].mod
 
 		for row in range (self.nRow):
@@ -71,16 +100,16 @@ class mapManager:
 
 		if keys[pygame.K_LEFT]:
 			for hexagon in self.hexagons:
-				hexagon.setDes([hexagon.getDes()[0] + 5, hexagon.getDes()[1]])
+				hexagon.setDes([hexagon.getDes()[0] + self.step, hexagon.getDes()[1]])
 		if keys[pygame.K_RIGHT]:
 			for hexagon in self.hexagons:
-				hexagon.setDes([hexagon.getDes()[0] - 5, hexagon.getDes()[1]])
+				hexagon.setDes([hexagon.getDes()[0] - self.step, hexagon.getDes()[1]])
 		if keys[pygame.K_UP]:
 			for hexagon in self.hexagons:
-				hexagon.setDes([hexagon.getDes()[0], hexagon.getDes()[1] + 5])
+				hexagon.setDes([hexagon.getDes()[0], hexagon.getDes()[1] + self.step])
 		if keys[pygame.K_DOWN]:
 			for hexagon in self.hexagons:
-				hexagon.setDes([hexagon.getDes()[0], hexagon.getDes()[1] - 5])
+				hexagon.setDes([hexagon.getDes()[0], hexagon.getDes()[1] - self.step])
 		if keys[pygame.K_SPACE]:
 			mousePos = pygame.mouse.get_pos()
 			if self.rmClick:
@@ -92,6 +121,20 @@ class mapManager:
 		else:
 			if self.rmClick == True:
 				self.rmClick = False
+		if keys[pygame.K_z] and self.hexagons[0].getLen() <= 70:
+			for hexagon in self.hexagons:
+				hexagon.setLen(hexagon.getLen()+self.step)
+			self.resizeHexagons()
+			self.step += 3
+			for hexagon in self.hexagons:
+				hexagon.configSurf()
+		if keys[pygame.K_x] and self.hexagons[0].getLen() >= 20:
+			for hexagon in self.hexagons:
+				hexagon.setLen(hexagon.getLen()-self.step)
+			self.resizeHexagons()
+			self.step -= 3
+			for hexagon in self.hexagons:
+				hexagon.configSurf()
 
 		for event in pygame.event.get():
 			if event.type == pygame.MOUSEBUTTONDOWN:
