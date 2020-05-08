@@ -68,7 +68,7 @@ class hexagon:
         (self.center2[0]  +(self.mod*self.length),self.center2[1] ),(self.center2[0]  +(self.mod*self.length/2),self.center2[1] -self.length)])
 
         self.alpha_surf = pygame.Surface((2*self.mod*self.length,2*self.length), pygame.SRCALPHA)
-        self.alpha_surf.fill((255,255,255,100))
+        self.alpha_surf.fill((255,255,255,0))
 
         self.surface.blit(self.alpha_surf, (0,0), special_flags=pygame.BLEND_RGBA_MULT)
 
