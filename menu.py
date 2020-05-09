@@ -1,15 +1,21 @@
 import pygame
 import button
 class Menu:
-    def __init__(self, backImage = "none", soundBack = "none", soundEff = "none", volBack = 0, volEff = 0):
+    def __init__(self, backImage = "none", soundBack = "none", soundEff = "none", volBack = 0, volEff = 0, ratioImage = 1):
         self.background = pygame.image.load(backImage).convert_alpha()
         self.buttons = []
-        self.background = pygame.transform.scale(self.background, (1000, 650))
+        self.background = pygame.transform.scale(self.background, (int(1920*ratioImage), int(1080*ratioImage)))
         self.soundBackground = soundBack
         self.soundEffect = soundEff
         self.volumeBackground = volBack
         self.volumeEffect = volEff
+        self.ratio = ratioImage
        
+    def changeResolution(self, newRatio):
+        self.ratio = newRatio
+        self.background = pygame.transform.scale(self.background, (1920*newRatio, 1080*newRatio))
+        for i in buttons:
+            i.changeResolution(newRatio)
         
     ##Método que verifica em qual botão foi clicado
     def checkMouseOn(self, pos):
