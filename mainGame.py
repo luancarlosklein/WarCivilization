@@ -11,6 +11,8 @@ from inGameMenu import InGameMenu
 
 from gameManager import GameManager
 
+from menuConfiguration import MenuConfiguration
+
 class MainGame:
     def __init__(self):
         
@@ -31,8 +33,9 @@ class MainGame:
         
         self.startMenu = MenuStart(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1)
         self.pauseMenu = MenuPause(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1)
+        self.configurationMenu = MenuConfiguration(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 0)
         self.game = GameManager (1, self.screen)
-        self.pages = [self.startMenu, self.game, self.pauseMenu]
+        self.pages = [self.startMenu, self.game, self.pauseMenu, self.configurationMenu]
         self.action = None
         self.activeNow = 0
         self.stop = False
@@ -44,9 +47,10 @@ class MainGame:
             pygame.display.update()
             for event in pygame.event.get():  
                 if self.activeNow != 1:
-                    self.pages[self.activeNow].show(self.screen, pygame.mouse.get_pos())
-                    if event.type == pygame.MOUSEBUTTONDOWN:##Verifica o clique do mouse
+                
+                    if event.type == pygame.MOUSEBUTTONDOWN or pygame.mouse.get_pressed()[0] != 0:##Verifica o clique do mouse
                         self.action = self.pages[self.activeNow].actionButtonClicked(pygame.mouse.get_pos())
+                    self.pages[self.activeNow].show(self.screen, pygame.mouse.get_pos())
                         
             if self.action == "newgame":
                 self.activeNow = 1
@@ -61,6 +65,11 @@ class MainGame:
             elif self.action == "exit":
                 pygame.quit()
                 self.stop = True
+
+            elif self.action == "configuration":
+                self.activeNow = 3
+               
+   
 
             elif self.action == "pause":
                 self.activeNow = 2

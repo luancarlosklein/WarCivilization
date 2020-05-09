@@ -9,6 +9,7 @@ class Menu:
         self.soundEffect = soundEff
         self.volumeBackground = volBack
         self.volumeEffect = volEff
+       
         
     ##Método que verifica em qual botão foi clicado
     def checkMouseOn(self, pos):
@@ -18,16 +19,21 @@ class Menu:
             sizeButton = i.getSize()
             if pos[0] <= (posButton[0] + sizeButton[0]) and pos[0] >= posButton[0]:
                 if pos[1] <= (posButton[1] + sizeButton[1]) and pos[1] >= posButton[1]:
-                    #print(i.getAction())
                     return cont
             cont += 1
         return -1
 
     def checkClick(self, pos):
-        return self.checkMouseOn(pos)
+        saida = self.checkMouseOn(pos)
+        if saida != -1:
+            print (self.buttons[saida].getType())
+            if self.buttons[saida].getType() == "slider":
+                self.buttons[saida].setVariable(pos[0])
+                return -1
+        return saida
 
     def actionButtonClicked(self, pos):
-        i = self.checkMouseOn(pos)
+        i = self.checkClick(pos)
         if i != -1:
             return self.buttons[i].getAction()
     
@@ -46,5 +52,7 @@ class Menu:
 
     def setSoundEffect(self, sound):
         self.volumeEffect = sound
+
+    
         
         
