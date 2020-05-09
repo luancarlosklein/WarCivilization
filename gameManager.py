@@ -1,6 +1,6 @@
 import pygame
 import time
-#from mapManager import mapManager
+from mapManager import mapManager
 from player import Player
 from inGameMenu import InGameMenu
 from attackMenu import AttackMenu
@@ -15,7 +15,7 @@ class GameManager ():
       self.commands = InGameMenu()
       self.attacks = AttackMenu()
       self.draft = DraftMenu()
-      #self.environment = mapManager()
+      self.map = mapManager()
       self.screen = screen
       self.active = True 
 
@@ -96,8 +96,7 @@ class GameManager ():
       return 0	
 
    def showGameScreen(self):
-      return 0
-      #environment.showScreen()
+      self.map.show(self.screen)
 		
 		
 

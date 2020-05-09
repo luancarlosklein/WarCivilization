@@ -17,11 +17,11 @@ class MainGame:
     def __init__(self):
         
 
-        self.heigth = 650
+        self.height = 650
         self.width = 1000
 
         pygame.init() ##Inicia os mï¿½dulos do PYGAME
-        self.window = pygame.display.set_mode((self.width, self.heigth)) ##Cria uma tela.. X e Y
+        self.window = pygame.display.set_mode((self.width, self.height)) ##Cria uma tela.. X e Y
         pygame.display.set_caption("War")##Nomeia a Janela
 
         self.screen = pygame.display.get_surface()
