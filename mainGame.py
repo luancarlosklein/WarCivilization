@@ -15,8 +15,8 @@ from menuConfiguration import MenuConfiguration
 
 class MainGame:
     def __init__(self):
-        
 
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,30)
 
         self.initialRatio = 1
 
@@ -24,17 +24,21 @@ class MainGame:
         self.width = int(1920 * self.initialRatio)
         pygame.init() ##Inicia os mï¿½dulos do PYGAME
         self.window = pygame.display.set_mode((self.width, self.height)) ##Cria uma tela.. X e Y
+        #self.window = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
+
         pygame.display.set_caption("War")##Nomeia a Janela
+        pygame.display.toggle_fullscreen()
+
 
         self.screen = pygame.display.get_surface()
         self.color_white = (255, 255, 255)
+
+        self.window.get_rect().topleft = (0,0)
 
         self.window.fill(self.color_white)
         pygame.display.flip()
         pygame.display.update()
 
-        
-        
         self.startMenu = MenuStart(os.path.join("images", "StartMenu","game_room.jpg"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
         self.pauseMenu = MenuPause(os.path.join("images", "backgroundMenuPause.png"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
         self.configurationMenu = MenuConfiguration(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 0)
