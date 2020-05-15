@@ -139,18 +139,20 @@ class mapManager:
 		for event in pygame.event.get():
 			if event.type == pygame.MOUSEBUTTONDOWN:
 				if event.button == 4:
-					#for hexagon in self.hexagons:
-					#	hexagon.setLen(hexagon.getLen()+5)
-					self.hexagons[0].setLen(self.hexagons[0].getLen()+5)
-					self.hexaLen += 5
+					for hexagon in self.hexagons:
+						hexagon.setLen(hexagon.getLen()+self.step)
 					self.resizeHexagons()
+					self.step += 3
+					for hexagon in self.hexagons:
+						hexagon.configSurf()
 
 				if event.button == 5:
-					# for hexagon in self.hexagons:
-					# 	hexagon.setLen(hexagon.getLen()-5)
-					self.hexagons[0].setLen(self.hexagons[0].getLen()-5)
-					self.hexaLen -= 5
+					for hexagon in self.hexagons:
+						hexagon.setLen(hexagon.getLen()+self.step)
 					self.resizeHexagons()
+					self.step -= 3
+					for hexagon in self.hexagons:
+						hexagon.configSurf()
 				
 			# 	if event.button == 3:
 			# 		print("DOWN")
