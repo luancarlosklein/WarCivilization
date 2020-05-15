@@ -113,7 +113,7 @@ class mapManager:
 		if keys[pygame.K_DOWN]:
 			for hexagon in self.hexagons:
 				hexagon.setDes([hexagon.getDes()[0], hexagon.getDes()[1] - self.step])
-		if keys[pygame.K_SPACE]:
+		if pygame.mouse.get_pressed()[2]:
 			mousePos = pygame.mouse.get_pos()
 			if self.rmClick:
 				for hexagon in self.hexagons:
@@ -156,34 +156,9 @@ class mapManager:
 					self.step -= 3
 					for hexagon in self.hexagons:
 						hexagon.configSurf()
-				
-			# 	if event.button == 3:
-			# 		print("DOWN")
-			# 		if (self.rmClick):
-			# 			for hexagon in self.hexagons:
-			# 				hexagon.des(pygame.mouse.get_pos() - self.lastPos)
-			# 		else:
-			# 			self.rmClick = True
-			# 		self.lastPos = pygame.mouse.get_pos()
-
-			# if event.type == pygame.MOUSEBUTTONUP:
-			# 	if event.button == 3:
-			# 		print("UP")
-			# 		self.rmClick = False
+						
 	def check_click(self):
-		for event in pygame.event.get():
-			if event.type == pygame.MOUSEBUTTONDOWN:
-				print("!!!!!!!!!!!")
-				if event.button == 4:
-					mouse = pygame.mouse.get_pos()
-					for hexagon in self.hexagons:
-						if (hexagon.checkClick(mouse)):
-							hexagon.setColor((50,50,50))
-							return hexagon
-
-		keys = pygame.key.get_pressed()
-
-		if keys[pygame.K_l]:
+		if pygame.mouse.get_pressed()[0]:
 			mouse = pygame.mouse.get_pos()
 			for hexagon in self.hexagons:
 				if (hexagon.checkClick(mouse)):
