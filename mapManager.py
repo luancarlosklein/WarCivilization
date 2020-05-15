@@ -20,9 +20,10 @@ class mapManager:
 			"desert" : (219,191, 28)
 		}
 
-		#	Apenas para teste
 		self.owners = ["France", "Brazil", "USA"]
+		self.clicked = 0
 
+		
 		self.surface = pygame.Surface((260,160), pygame.SRCALPHA)
 
 		pygame.draw.polygon(self.surface, (255,0,0), [(130 + 0 - (1.1547*30/2),80 + 0 -30),(130 + 0 -(1.1547*30),
@@ -64,12 +65,14 @@ class mapManager:
 	def show(self, screen):
 		#rect = self.surface.get_rect()
 
+		self.check_click()
+
 		pygame.draw.rect(screen, (9,46,255), (0, 0, 1920, 1080))
 		for hexagon in self.hexagons:
 			hexagon.show(screen)
 		self.check_translation()
 		#screen.blit(self.surface, rect)
-		
+	
 
 	def resizeHexagons(self):
 		i = 0
@@ -167,5 +170,24 @@ class mapManager:
 			# 	if event.button == 3:
 			# 		print("UP")
 			# 		self.rmClick = False
+	def check_click(self):
+		for event in pygame.event.get():
+			if event.type == pygame.MOUSEBUTTONDOWN:
+				print("!!!!!!!!!!!")
+				if event.button == 4:
+					mouse = pygame.mouse.get_pos()
+					for hexagon in self.hexagons:
+						if (hexagon.checkClick(mouse)):
+							hexagon.setColor((50,50,50))
+							return hexagon
 
+		keys = pygame.key.get_pressed()
+
+		if keys[pygame.K_l]:
+			mouse = pygame.mouse.get_pos()
+			for hexagon in self.hexagons:
+				if (hexagon.checkClick(mouse)):
+					hexagon.setColor((50,50,50))
+					return hexagon
+		return False
 

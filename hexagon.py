@@ -91,14 +91,15 @@ class hexagon:
         (self.center[0] + self.des[0] +(self.mod*self.length),self.center[1] + self.des[1] ),(self.center[0] + self.des[0] +(self.mod*self.length/2),self.center[1] + self.des[1] - self.length)], 1)
 
     def checkClick(self, posMouse):
-        self.surface.topleft = [self.center[0]-(self.mod*self.length), self.center[1] - self.length]
-        if(abs(posMouse[0] - center[0]) > self.mod*self.length or abs(posMouse[1] - center[1]) > self.length):
-            return
-        if ((abs(posMouse[0] - center[0]) < self.mod*self.length/2) and (abs(posMouse[1]-center[1]) < self.length)):
-            print(center)
-        elif (posMouse[0] < center[0]):
-            if (((abs(posMouse[1]-(center[1])))/(abs(posMouse[0]-(center[0]-self.mod*self.length)))) < 1.732):
-                print(center)
+        #self.surface.topleft = [self.center[0]-(self.mod*self.length), self.center[1] - self.length]
+        if(abs(posMouse[0] - (self.center[0] + self.des[0])) > self.mod*self.length or abs(posMouse[1] - (self.center[1] + self.des[1])) > self.length):
+            return False
+        if ((abs(posMouse[0] - (self.center[0] + self.des[0])) < self.mod*self.length/2) and (abs(posMouse[1]-(self.center[1] + self.des[1])) < self.length)):
+            return True
+        elif (posMouse[0] < (self.center[0] + self.des[0])):
+            if (((abs(posMouse[1]-((self.center[1] + self.des[1]))))/(abs(posMouse[0]-((self.center[0] + self.des[0])-self.mod*self.length)))) < 1.732):
+                return True
         else:
-            if (((abs(posMouse[1]-(center[1])))/(abs(posMouse[0]-(center[1]+self.mod*self.length)))) < 1.732):
-                print(center)
+            if (((abs(posMouse[1]-((self.center[1] + self.des[1]))))/(abs(posMouse[0]-((self.center[1] + self.des[1])+self.mod*self.length)))) < 1.732):
+                return True
+        return False
