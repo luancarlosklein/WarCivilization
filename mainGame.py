@@ -27,7 +27,7 @@ class MainGame:
         #self.window = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
 
         pygame.display.set_caption("War")##Nomeia a Janela
-        pygame.display.toggle_fullscreen()
+        #pygame.display.toggle_fullscreen()
 
 
         self.screen = pygame.display.get_surface()

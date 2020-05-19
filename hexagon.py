@@ -25,7 +25,7 @@ class hexagon:
         self.owner_color = {
             "France" : (0,0,255),
             "Brazil" : (0,51,0),
-            "USA" : (255,0,0)
+            "USA" : (255,0,0), 
         }
 
         self.color = self.biomes_colors[biome]
