@@ -1,4 +1,5 @@
 import pygame
+import math
 
 class hexagon:
     def __init__(self, center = [0.0], biome = "plain", owner = 0, nTroop = 0, length = 0):
@@ -103,3 +104,8 @@ class hexagon:
             if (((abs(posMouse[1]-((self.center[1] + self.des[1]))))/(abs(posMouse[0]-((self.center[1] + self.des[1])+self.mod*self.length)))) < 1.732):
                 return True
         return False
+
+    def distanceTo(self, hexagon):
+        dist = math.sqrt((self.center[0] - hexagon.center[0])**2 + (self.center[1] - hexagon.center[1])**2)
+        h = 3*self.mod*self.length/2
+        return (int(dist/h))

@@ -35,6 +35,7 @@ class mapManager:
 
 		self.surface.blit(self.alpha_surf, (0,0), special_flags=pygame.BLEND_RGBA_MULT)
 
+
 		deslocate = 1
 		pos = [85,50]
 		start = [85,50]
@@ -65,7 +66,7 @@ class mapManager:
 	def show(self, screen):
 		#rect = self.surface.get_rect()
 
-		self.check_click()
+		#self.check_click()
 
 		pygame.draw.rect(screen, (9,46,255), (0, 0, 1920, 1080))
 		for hexagon in self.hexagons:
@@ -138,6 +139,8 @@ class mapManager:
 			self.step -= 3
 			for hexagon in self.hexagons:
 				hexagon.configSurf()
+
+
 
 		for event in pygame.event.get():
 			if event.type == pygame.MOUSEBUTTONDOWN:
