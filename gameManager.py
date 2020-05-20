@@ -10,15 +10,6 @@ from goal import Goal
 class GameManager ():
    def __init__(self, np, screen):
       self.player_list =[]
-      i = 0
-      while i < np:
-         i+=1
-         new_player = Player()
-         if new_player.exists:
-            self.player_list.append(new_player)
-         new_player.mission = Goal (np)
-         if new_player.mission.opponent == i:
-            new_player.mission.opponent = 1
 
       self.n_players = np
       self.current_player = 1
@@ -28,33 +19,49 @@ class GameManager ():
       self.map = mapManager()
       self.screen = screen
       self.active = True 
-      self.new_game =1
-
+      self.game_started =0
+      self.chosenHex = False
+      self.showing = 0
    def gameLoop(self):
       color_white = (255, 255, 255)
       field = 0
       selecting = 1
       attack = 2
       draft = 3
-      showing = field
+      i = 0
+      while i < self.n_players:
+         i+=1
+         new_player = Player()
+         if new_player.exists:
+            self.player_list.append(new_player)
+         new_player.mission = Goal (self.n_players)
+         if new_player.mission.opponent == i:
+            new_player.mission.opponent = 1
+      while(pygame.mouse.get_pressed()[0]):
+         pygame.event.get()
+         time.sleep(0.03)
+      self.showing = selecting
       ##Ativa a variavel para quando for chamado de mais uma vez, voltar a executar o loop
       self.active = True
       ##Variavel usada para retornar o valor de pause
       pause = "pause"	
       self.distribution()
+      self.commands.distribution = False
+      self.game_started = 0
       i=0
       while self.active:                                        ##enquanto o jogo estiver valendo
         while i < len(self.player_list):                      ##o turno de cada jogador
             end_turn = False
+            self.player_list[i].money+=len(self.player_list[i].owned_territories)
             while (end_turn==False):
                self.screen.fill(color_white)
                events = pygame.event.get()			     #variavel que controla o estado da intel. em "campo", ainda nao foi decidido se o player vai atacar ou recrutar
-               self.showGameScreen()			     #mostra o campo com os exagonos
+               self.showGameScreen(events)			     #mostra o campo com os exagonos
                operation = self.commands.execute(self.screen, events, self.player_list[i] )    ##imprime o menu, verifica os clicks e retorna o indice do botao retornado
-               if (operation == 4):
+               if (operation == 3):
                   end_turn = True
-               if (showing ==field and operation ==0):
-                  showing = selecting
+               if (self.showing ==field and operation ==0):
+                  self.showing = selecting
                   self.commands.hidden = False
 
                ##Verifica se o retorno foi pause (cliclado na tecla esc), se sim, retorna o valor (para o loop)
@@ -63,31 +70,30 @@ class GameManager ():
                   print(pause)
                   return pause
                elif (operation == 0):
-                  showing = field
+                  self.showing = field
                   self.commands.hidden = True
-               elif (showing ==selecting):
-                  if (operation ==1):    
-                     #showing = ataque
-                     i=0
-                  if (operation ==2):
-                     i=0
-                     #showing = draft
+               elif (self.showing ==selecting):
+                  if (operation ==1):
+                     self.showing = draft
+                  if (operation ==2):    
+                     a=0
+                     #self.showing = ataque
 
-               elif ( showing ==attack): 			     ##opção 1: atacar
+               elif ( self.showing ==attack): 			     ##opção 1: atacar
+                     a=0
                      #self.attack.execute(screen)          #menu que retorna as informações sobre o ataque
                      #self.attackProcedure()		     #realiza o ataque
-                     i=0
-               elif ( showing ==draft): 			     ##opção 1: atacar
-                     #self.attack.execute(screen)          #menu que retorna as informações sobre o ataque
-                     #self.attackProcedure()		     #realiza o ataque
-                     i=0
+
+               elif ( self.showing ==draft): 			     ##opção 1: atacar
+                     self.draftProcedure(self.player_list[i], events)		     #realiza o recrutamento
 
                pygame.display.flip()
                pygame.display.update()
             status = self.checkGoals(i)			     #analiza se algum player cumpriu seu objetivo
+            i= (i+1)%self.n_players
+
             if status != 0:					     #em caso positivo, retorna o vencedor
                   self.active = False			     #em caso negativo, acaba o jogo
-                  i+=1
 
                         
             time.sleep (0.03)
@@ -105,11 +111,11 @@ class GameManager ():
             while selecting:
                territory = self.map.check_click()
                if (territory):
-                  if (territory.owner != i):
+                  if ((isinstance(territory.owner, Player))==False):
                      selecting = False
                self.screen.fill(color_white)
                events = pygame.event.get()			     #variavel que controla o estado da intel. em "campo", ainda nao foi decidido se o player vai atacar ou recrutar
-               self.showGameScreen()			     #mostra o campo com os exagonos
+               self.showGameScreen(events)			     #mostra o campo com os exagonos
                operation = self.commands.execute(self.screen, events, i )    ##imprime o menu, verifica os clicks e retorna o indice do botao retornado
                if operation == pause:
                   return False
@@ -129,10 +135,33 @@ class GameManager ():
          i+=1
 
    def attackProcedure(self):
+
       return 1
         
 
-   def draftProcedure(self):
+   def draftProcedure(self, player, events):
+      if self.chosenHex==False:
+         operation = self.draft.execute(self.screen, events, 0)
+      else:
+         operation = self.draft.execute(self.screen, events, 1)
+         if (operation ==0 and player.money>self.draft.troops):
+            self.draft.troops +=1
+         if (operation ==1 and self.draft.troops>0):
+            self.draft.troops -=1
+         if (operation ==2):
+            self.chosenHex.nTroop += self.draft.troops
+            player.money -= self.draft.troops
+            self.showing = 1
+            self.draft.troops = 0
+            self.chosenHex = False
+      territory = self.map.check_click()
+      if (territory):
+         if (territory.owner == player):
+            self.chosenHex = territory
+      if (operation == 3):
+         self.showing = 1
+
+      
       return 1
 
    def checkGoals(self, current_player):
@@ -141,8 +170,8 @@ class GameManager ():
             return 0
       return 0	
 
-   def showGameScreen(self):
-      self.map.show(self.screen)
+   def showGameScreen(self, events):
+      self.map.show(self.screen, events)
 		
 		
 

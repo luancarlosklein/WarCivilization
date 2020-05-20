@@ -13,10 +13,17 @@ class Player:
 		self.mission = 0
 		info = PlayerInfoSelector()
 		#self.name = info.chooseName()
-		#self.emblem = info.chooseFlag()
-		self.name = "Egito"
-		self.emblem = pygame.image.load(os.path.join("images", "flag2.png")).convert_alpha()
+		self.name = info.chooseFlag()
+		self.emblem = pygame.image.load(os.path.join("images", self.findFlag()+".png")).convert_alpha()
 		#print (self.name)
 		self.exists = 1
+	
+	def findFlag(self):
+		if (self.name=="Great Britain"):
+			return "flag1"
+		if (self.name=="USA"):
+			return "flag2"
+		if (self.name=="Egypt"):
+			return "flag3"
 		
 		

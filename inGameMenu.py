@@ -9,9 +9,9 @@ class InGameMenu(menu.Menu):
       super().__init__(os.path.join("images", "transparente.png"))
       self.buttons.append(Button(os.path.join("images", "seta.jpeg"), (1720*self.ratio, 100*self.ratio), 100, 100, "MAIS"))
       self.buttons[0].background = pygame.transform.flip(self.buttons[0].background, True, False)
-      self.buttons.append(Button(os.path.join("images", "transparente.png"), (1370*self.ratio, 130*self.ratio), 100, 250, "MAIS NEGO"))
-      self.buttons.append(Button(os.path.join("images", "transparente.png"), (1370*self.ratio, 280*self.ratio), 100, 250, "PAR TOUTATIS"))
-      self.buttons.append(Button(os.path.join("images", "transparente.png"), (1370*self.ratio, 430*self.ratio), 100, 250, "PAR TOUTATIS"))
+      self.buttons.append(Button(os.path.join("images", "transp.png"), (1370*self.ratio, 130*self.ratio), 100, 250, "MAIS NEGO"))
+      self.buttons.append(Button(os.path.join("images", "transp.png"), (1370*self.ratio, 280*self.ratio), 100, 250, "PAR TOUTATIS"))
+      self.buttons.append(Button(os.path.join("images", "transp.png"), (1370*self.ratio, 430*self.ratio), 100, 250, "PAR TOUTATIS"))
       self.background = pygame.transform.scale(self.background,(1640*self.ratio , 1080*self.ratio))
       self.hidden = True
       self.distribution = True
@@ -71,7 +71,7 @@ class InGameMenu(menu.Menu):
          else:
             txt= ('CHOOSE YOUR NEW TERRITORY')                          ##### armazena o texto
             txtscreen = fontesys.render(txt, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
-            screen.blit(txtscreen,(1200*self.ratio,500* self.ratio))                  ##### coloca na posição 50,900 (tela FHD)
+            screen.blit(txtscreen,(1220*self.ratio,500* self.ratio))                  ##### coloca na posição 50,900 (tela FHD)
 
 
 

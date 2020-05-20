@@ -42,7 +42,7 @@ class MainGame:
         self.startMenu = MenuStart(os.path.join("images", "StartMenu","game_room.jpg"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
         self.pauseMenu = MenuPause(os.path.join("images", "backgroundMenuPause.png"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
         self.configurationMenu = MenuConfiguration(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 0)
-        self.game = GameManager (1, self.screen)
+        self.game = GameManager (2, self.screen)
         self.pages = [self.startMenu, self.game, self.pauseMenu, self.configurationMenu]
         self.action = None
         self.activeNow = 0

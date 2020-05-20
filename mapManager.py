@@ -63,7 +63,7 @@ class mapManager:
 	def set_nRow(self,num):
 		self.nRow = num
 	
-	def show(self, screen):
+	def show(self, screen, events):
 		#rect = self.surface.get_rect()
 
 		#self.check_click()
@@ -71,7 +71,7 @@ class mapManager:
 		pygame.draw.rect(screen, (9,46,255), (0, 0, 1920, 1080))
 		for hexagon in self.hexagons:
 			hexagon.show(screen)
-		self.check_translation()
+		self.check_translation(events)
 		#screen.blit(self.surface, rect)
 	
 
@@ -99,7 +99,7 @@ class mapManager:
 			else:
 				deslocate = 1
 
-	def check_translation(self):
+	def check_translation(self, events):
 		keys = pygame.key.get_pressed()
 
 		if keys[pygame.K_LEFT]:
@@ -142,7 +142,7 @@ class mapManager:
 
 
 
-		for event in pygame.event.get():
+		for event in events:
 			if event.type == pygame.MOUSEBUTTONDOWN:
 				if event.button == 4:
 					for hexagon in self.hexagons:

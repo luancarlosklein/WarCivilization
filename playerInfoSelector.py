@@ -62,9 +62,15 @@ class PlayerInfoSelector(menu.Menu):
             i+=1
          self.buttons[2].background = pygame.image.load(os.path.join("images", "flag"+str(i)+".png")).convert_alpha()
          if operation == 2:
-            return self.buttons[2].background
+            break
          pygame.display.update()
          time.sleep (0.03)
+      if (i==1):
+         return "Great Britain"
+      if (i==2):
+         return "USA"
+      if (i==3):
+         return "Egypt"
 
    def chooseName (self ):
       txt_input = TextInput()
