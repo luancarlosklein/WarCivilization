@@ -143,6 +143,9 @@ class GameManager ():
 
    def showGameScreen(self):
       self.map.show(self.screen)
+
+   def changeResolution(self, newRatio):
+      return 1
 		
 		
 

@@ -43,6 +43,9 @@ class Slider:
     def setSize(self, size):
         self.background = pygame.transform.scale(self.background,size)
 
+    def changeResolution(self, newRatio):
+        return 1
+
   
         
         

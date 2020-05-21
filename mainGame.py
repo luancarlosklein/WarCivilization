@@ -18,8 +18,8 @@ class MainGame:
 
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,30)
 
-        self.initialRatio = 1
-
+        self.initialRatio = 0.5
+        self.currentRatio = self.initialRatio 
         self.height = int (1080 * self.initialRatio)
         self.width = int(1920 * self.initialRatio)
         pygame.init() ##Inicia os mï¿½dulos do PYGAME
@@ -41,7 +41,7 @@ class MainGame:
 
         self.startMenu = MenuStart(os.path.join("images", "StartMenu","game_room.jpg"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
         self.pauseMenu = MenuPause(os.path.join("images", "backgroundMenuPause.png"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
-        self.configurationMenu = MenuConfiguration(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 0)
+        self.configurationMenu = MenuConfiguration(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 0, self.initialRatio)
         self.game = GameManager (1, self.screen)
         self.pages = [self.startMenu, self.game, self.pauseMenu, self.configurationMenu]
         self.action = None
@@ -59,8 +59,10 @@ class MainGame:
                     if event.type == pygame.MOUSEBUTTONDOWN or pygame.mouse.get_pressed()[0] != 0:##Verifica o clique do mouse
                         print(pygame.mouse.get_pos())
                         self.action = self.pages[self.activeNow].actionButtonClicked(pygame.mouse.get_pos())
+                        print(self.action)
                     self.pages[self.activeNow].show(self.screen, pygame.mouse.get_pos())
-                        
+
+            changeReso = False
             if self.action == "newgame":
                 self.activeNow = 1
                 self.window.fill(self.color_white)
@@ -77,13 +79,40 @@ class MainGame:
 
             elif self.action == "configuration":
                 self.activeNow = 3
-               
 
             elif self.action == "pause":
                 self.activeNow = 2
 
             elif self.action == "mainmenu":
                 self.activeNow = 0
+
+            elif self.action == "fullHD":
+                self.currentRatio = 1
+                changeReso = True
+            elif self.action == "HD":
+                self.currentRatio = 1290/1980
+                changeReso = True
+            elif self.action == "480p":
+                self.currentRatio = 854/1980
+                changeReso = True
+            elif self.action == "360p":
+                self.currentRatio = 640/1980
+                changeReso = True
+            elif self.action == "240p":
+                self.currentRatio = 426/1980
+                changeReso = True
+
+            if changeReso == True:
+                changeReso = False
+                for i in self.pages:
+                    i.changeResolution(self.currentRatio)
+                self.height = int (int(1080 * self.currentRatio))
+                self.width = int( int(1920 * self.currentRatio))
+                self.window = pygame.display.set_mode((self.width, self.height)) 
+                pygame.display.flip()
+                pygame.display.update()
+                self.pages[self.activeNow].show(self.screen, pygame.mouse.get_pos())
+                self.action = "none"
 
             if event.type == pygame.QUIT: ## Verifica se o usuario clicou no X vermelho para fechar
                 pygame.quit()

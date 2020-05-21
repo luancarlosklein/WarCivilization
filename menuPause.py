@@ -25,10 +25,13 @@ class MenuPause(menu.Menu):
        
        
 #######################################################################################################     
-       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (900, 290), 40, 250, "resume", "button", ratioE))
-       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (900, 380), 40, 250, "configuration", "button", ratioE))
-       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (900, 470), 40, 250, "mainmenu", "button", ratioE))
-       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (900, 560), 40, 250, "exit", "button", ratioE))
+       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (870, 290), 60, 250, "resume", "button", ratioE))
+       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (870, 380), 60, 250, "configuration", "button", ratioE))
+       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (870, 470), 60, 250, "mainmenu", "button", ratioE))
+       self.buttons.append(button.Button(os.path.join("images", "transp.png"), (870, 560), 60, 250, "exit", "button", ratioE))
+
+
+      
        
 ###########Utiliza essas duas listas, uma com a escrita normal, e outro com ela em vermelho
        self.texts = [t1, t2, t3, t4]
