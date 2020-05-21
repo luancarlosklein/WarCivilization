@@ -21,6 +21,7 @@ class GameManager ():
       self.active = True 
       self.game_started =0
       self.chosenHex = False
+      self.attackingHex = False
       self.showing = 0
    def gameLoop(self):
       color_white = (255, 255, 255)
@@ -57,7 +58,7 @@ class GameManager ():
                self.screen.fill(color_white)
                events = pygame.event.get()			     #variavel que controla o estado da intel. em "campo", ainda nao foi decidido se o player vai atacar ou recrutar
                self.showGameScreen(events)			     #mostra o campo com os exagonos
-               operation = self.commands.execute(self.screen, events, self.player_list[i] )    ##imprime o menu, verifica os clicks e retorna o indice do botao retornado
+               operation = self.commands.execute(self.screen, events, self.player_list[i], self.chosenHex, self.showing )    ##imprime o menu, verifica os clicks e retorna o indice do botao retornado
                if (operation == 3):
                   end_turn = True
                if (self.showing ==field and operation ==0):
@@ -73,16 +74,18 @@ class GameManager ():
                   self.showing = field
                   self.commands.hidden = True
                elif (self.showing ==selecting):
+                  territory = self.map.check_click()
+                  if (territory):
+                     self.chosenHex = territory
                   if (operation ==1):
                      self.showing = draft
+                     self.chosenHex = 0
                   if (operation ==2):    
-                     a=0
-                     #self.showing = ataque
+                     self.showing = attack
+                     self.chosenHex = 0
 
                elif ( self.showing ==attack): 			     ##opção 1: atacar
-                     a=0
-                     #self.attack.execute(screen)          #menu que retorna as informações sobre o ataque
-                     #self.attackProcedure()		     #realiza o ataque
+                     self.attackProcedure(self.player_list[i], events)		     #realiza o ataque
 
                elif ( self.showing ==draft): 			     ##opção 1: atacar
                      self.draftProcedure(self.player_list[i], events)		     #realiza o recrutamento
@@ -116,7 +119,7 @@ class GameManager ():
                self.screen.fill(color_white)
                events = pygame.event.get()			     #variavel que controla o estado da intel. em "campo", ainda nao foi decidido se o player vai atacar ou recrutar
                self.showGameScreen(events)			     #mostra o campo com os exagonos
-               operation = self.commands.execute(self.screen, events, i )    ##imprime o menu, verifica os clicks e retorna o indice do botao retornado
+               operation = self.commands.execute(self.screen, events, i, 0 )    ##imprime o menu, verifica os clicks e retorna o indice do botao retornado
                if operation == pause:
                   return False
 
@@ -124,6 +127,7 @@ class GameManager ():
                pygame.display.update()
             i.owned_territories.append(territory)
             territory.owner = i
+            territory.nTroop = 1
             time.sleep (0.03)
             
       return True
@@ -134,8 +138,46 @@ class GameManager ():
          self.player_list.append(Player())
          i+=1
 
-   def attackProcedure(self):
-
+   def attackProcedure(self, player, events):
+      if self.chosenHex==False:
+         if self.attackingHex == False:
+            operation = self.attacks.execute(self.screen, events, 0)
+         else:
+            operation = self.attacks.execute(self.screen, events, 1)
+      else:
+         operation = self.attacks.execute(self.screen, events, 2)
+         if (operation ==0 and self.attackingHex.nTroop > self.attacks.troops+1):
+            self.attacks.troops +=1
+         if (operation ==1 and self.attacks.troops>0):
+            self.attacks.troops -=1
+         if (operation ==2):
+            if (self.attacks.troops>self.chosenHex.nTroop):
+               self.chosenHex.nTroop = self.attacks.troops - self.chosenHex.nTroop
+               self.chosenHex.owner = player
+               self.attackingHex.nTroop -=self.attacks.troops
+            elif (self.attacks.troops<self.chosenHex.nTroop):
+               self.chosenHex.nTroop = self.chosenHex.nTroop - self.attacks.troops
+               self.attackingHex.nTroop -=self.attacks.troops
+            else:
+               self.chosenHex.nTroop = 0
+               self.chosenHex.owner = False
+               self.attackingHex.nTroop -=self.attacks.troops
+            self.showing = 1
+            self.attacks.troops = 0
+            self.chosenHex = False
+            self.attackingHex = False
+      territory = self.map.check_click()
+      if (territory):
+         if (territory.owner == player):
+            if self.attackingHex==False:
+               self.attackingHex = territory
+         elif(territory.distanceTo(self.attackingHex)<1.1):
+               self.chosenHex = territory
+      if (operation == 3):
+         self.showing = 1
+         self.attacks.troops = 0
+         self.chosenHex = False
+         self.attackingHex = False
       return 1
         
 

@@ -1,5 +1,6 @@
 import pygame
 import menu
+from hexagon import hexagon
 from button import Button
 from player import Player
 import os
@@ -15,7 +16,7 @@ class InGameMenu(menu.Menu):
       self.background = pygame.transform.scale(self.background,(1640*self.ratio , 1080*self.ratio))
       self.hidden = True
       self.distribution = True
-   def show(self, screen, pos, player):
+   def show(self, screen, pos, player, chosenHex, showing):
       if (self.hidden ==False):
          screen.blit(self.background, (1200*self.ratio,0))
       count =0
@@ -67,6 +68,23 @@ class InGameMenu(menu.Menu):
             txtscreen = fontesys.render(txt, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
             screen.blit(txtscreen,(1380*self.ratio,450* self.ratio))                  ##### coloca na posição 50,900 (tela FHD)
 
+            if ((isinstance(chosenHex, hexagon))== True and showing == 1 ):
+               if (isinstance(chosenHex.owner, Player))==True:
+                  txt1= ('OWNER: '+ chosenHex.owner.name)  
+                  txt2 = ("TROOP COUNT: "+str(chosenHex.nTroop) )
+               else:
+                  txt1= ('UNEXPLORED TERRITORY')   
+                  txt2 = ("TROOP COUNT: 0" )
+               txt3 = ('BIOME: '+chosenHex.biome)
+               txtscreen = fontesys.render(txt1, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
+               screen.blit(txtscreen,(1380*self.ratio,550* self.ratio))                  ##### coloca na posição 50,900 (tela FHD)
+               txtscreen = fontesys.render(txt2, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
+               screen.blit(txtscreen,(1380*self.ratio,650* self.ratio))                  ##### coloca na posição 50,900 (tela FHD)
+               txtscreen = fontesys.render(txt3, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
+               screen.blit(txtscreen,(1380*self.ratio,750* self.ratio))                  ##### coloca na posição 50,900 (tela FHD)
+
+
+
 ################################################################################################################################
          else:
             txt= ('CHOOSE YOUR NEW TERRITORY')                          ##### armazena o texto
@@ -85,10 +103,10 @@ class InGameMenu(menu.Menu):
 ################################################################################################################################
 
 
-   def execute(self, screen, events, player):
+   def execute(self, screen, events, player, chosenHex, showing =0):
       operation = -1
       stop = False
-      self.show(screen, operation, player)
+      self.show(screen, operation, player, chosenHex, showing)
       for event in events:
          if event.type == pygame.MOUSEBUTTONDOWN:##Verifica o clique do mouse
             operation = self.checkClick(pygame.mouse.get_pos())

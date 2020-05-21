@@ -18,7 +18,7 @@ class MainGame:
 
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,30)
 
-        self.initialRatio = 0.5
+        self.initialRatio = 1
         self.currentRatio = self.initialRatio 
         self.height = int (1080 * self.initialRatio)
         self.width = int(1920 * self.initialRatio)
