@@ -45,7 +45,8 @@ class GameManager ():
       ##Ativa a variavel para quando for chamado de mais uma vez, voltar a executar o loop
       self.active = True
       ##Variavel usada para retornar o valor de pause
-      pause = "pause"	
+      pause = "pause"
+      final = "final"
       self.distribution()
       self.commands.distribution = False
       self.game_started = 0
@@ -54,22 +55,25 @@ class GameManager ():
         while i < len(self.player_list):                      ##o turno de cada jogador
             end_turn = False
             self.player_list[i].money+=len(self.player_list[i].owned_territories)
-            while (end_turn==False):
+            while (end_turn == False):
                self.screen.fill(color_white)
                events = pygame.event.get()			     #variavel que controla o estado da intel. em "campo", ainda nao foi decidido se o player vai atacar ou recrutar
                self.showGameScreen(events)			     #mostra o campo com os exagonos
                operation = self.commands.execute(self.screen, events, self.player_list[i], self.chosenHex, self.showing )    ##imprime o menu, verifica os clicks e retorna o indice do botao retornado
+
+               ##Verifica se o retorno foi pause (cliclado na tecla esc), se sim, retorna o valor (para o loop)
+               if (operation == pause):
+                  self.active = False
+                  print(pause)
+                  return pause
+               
+
                if (operation == 3):
                   end_turn = True
                if (self.showing ==field and operation ==0):
                   self.showing = selecting
                   self.commands.hidden = False
 
-               ##Verifica se o retorno foi pause (cliclado na tecla esc), se sim, retorna o valor (para o loop)
-               elif (operation == pause):
-                  self.active = False
-                  print(pause)
-                  return pause
                elif (operation == 0):
                   self.showing = field
                   self.commands.hidden = True

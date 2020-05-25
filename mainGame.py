@@ -11,6 +11,10 @@ from inGameMenu import InGameMenu
 
 from gameManager import GameManager
 
+
+from menuFinal import MenuFinal
+
+
 from menuConfiguration import MenuConfiguration
 
 class MainGame:
@@ -18,7 +22,7 @@ class MainGame:
 
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,30)
 
-        self.initialRatio = 1
+        self.initialRatio = 0.5
         self.currentRatio = self.initialRatio 
         self.height = int (1080 * self.initialRatio)
         self.width = int(1920 * self.initialRatio)
@@ -41,14 +45,15 @@ class MainGame:
 
         self.startMenu = MenuStart(os.path.join("images", "StartMenu","game_room.jpg"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
         self.pauseMenu = MenuPause(os.path.join("images", "backgroundMenuPause.png"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
-##<<<<<<< HEAD
-        self.configurationMenu = MenuConfiguration(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 0, self.initialRatio)
+
+        self.finalMenu = MenuFinal(os.path.join("images", "inglesias.jpg"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
+        
         self.game = GameManager (1, self.screen)
-##=======
+        
         self.configurationMenu = MenuConfiguration(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 0, self.initialRatio)
         self.game = GameManager (2, self.screen)
-##>>>>>>> 2204cf92024ba09c37ee47fd69c8ebf3cb55b79a
-        self.pages = [self.startMenu, self.game, self.pauseMenu, self.configurationMenu]
+
+        self.pages = [self.startMenu, self.game, self.pauseMenu, self.configurationMenu, self.finalMenu]
         self.action = None
         self.activeNow = 0
         self.stop = False
@@ -88,6 +93,12 @@ class MainGame:
             elif self.action == "pause":
                 self.activeNow = 2
 
+            ######PRA MUDAR A IMAGEM DO FUNDO FINAL EH AQUI
+            elif self.action == "final":
+                self.activeNow = 4
+                ##REINICIA A POSICAO 4, CRIANDO ELA DENOVO
+                ##MenuFinal(os.path.join("images", "StartMenu","game_room.jpg"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
+                
             elif self.action == "mainmenu":
                 self.activeNow = 0
 
