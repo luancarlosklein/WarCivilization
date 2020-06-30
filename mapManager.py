@@ -3,8 +3,9 @@ import random
 from hexagon import hexagon
 
 class mapManager:
-	def __init__(self, background = 0):
+	def __init__(self, background = 0, ratioE = 1):
 		self.hexagons = []
+		self.ratioE = ratioE
 		self.background = background
 		self.nCol = 9			# Numero de hexagonos por coluna
 		self.nRow = 19			# Numero de hexagonos por linha
@@ -23,7 +24,7 @@ class mapManager:
 		self.owners = ["France", "Brazil", "USA"]
 		self.clicked = 0
 
-		
+
 		self.surface = pygame.Surface((260,160), pygame.SRCALPHA)
 
 		pygame.draw.polygon(self.surface, (255,0,0), [(130 + 0 - (1.1547*30/2),80 + 0 -30),(130 + 0 -(1.1547*30),
@@ -44,18 +45,23 @@ class mapManager:
 			for j in range (self.nCol):
 				biome = random.choice(list(self.biomes))
 				owner = random.choice(list(self.owners))
-				self.hexagons.append(hexagon(pos, biome, owner, 0, self.hexaLen))
-				pos = [pos[0] + 3*self.hexagons[0].mod*self.hexaLen, pos[1]]
+				self.hexagons.append(hexagon(pos, biome, owner, 0, self.hexaLen, self.ratioE))
+				pos = [pos[0] + 3 * self.hexagons[0].mod * self.hexaLen * self.ratioE, pos[1]]
 			if not deslocate:
 				biome = random.choice(list(self.biomes))
 				owner = random.choice(list(self.owners))
-				self.hexagons.append(hexagon(pos, biome, owner, 0, self.hexaLen))
-			pos = [start[0], pos[1]+self.hexagons[0].length]
+				self.hexagons.append(hexagon(pos, biome, owner, 0, self.hexaLen, self.ratioE))
+			pos = [start[0], pos[1]+self.hexagons[0].getLen()]
 			if (deslocate):
 				pos[0] -= 1.5*self.hexagons[0].mod*self.hexagons[0].getLen()
 				deslocate = 0
 			else:
 				deslocate = 1
+
+	def set_ratioE(self, ratioE):
+		self.ratioE = ratioE
+		for hexagon in self.hexagons:
+			hexagon.set_ratioE(self.ratioE)
 
 	def set_nCol(self, num):
 		self.nCol = num
@@ -125,20 +131,20 @@ class mapManager:
 		else:
 			if self.rmClick == True:
 				self.rmClick = False
-		if keys[pygame.K_z] and self.hexagons[0].getLen() <= 70:
+		if (keys[pygame.K_z] and self.hexagons[0].getLen() <= 70):
 			for hexagon in self.hexagons:
-				hexagon.setLen(hexagon.getLen()+self.step)
+				hexagon.setLen((hexagon.getLen()/self.ratioE)+self.step)
 			self.resizeHexagons()
 			self.step += 3
 			for hexagon in self.hexagons:
 				hexagon.configSurf()
-		if keys[pygame.K_x] and self.hexagons[0].getLen() >= 20:
+		if (keys[pygame.K_x] and self.hexagons[0].getLen() >= 20):
 			for hexagon in self.hexagons:
-				hexagon.setLen(hexagon.getLen()-self.step)
+				hexagon.setLen((hexagon.getLen()/self.ratioE)-self.step)
 			self.resizeHexagons()
 			self.step -= 3
 			for hexagon in self.hexagons:
-				hexagon.configSurf()
+				hexagon.configSurf()	
 
 
 

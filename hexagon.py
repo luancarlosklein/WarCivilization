@@ -2,12 +2,13 @@ import pygame
 import math
 
 class hexagon:
-    def __init__(self, center = [0.0], biome = "plain", owner = 0, nTroop = 0, length = 0):
+    def __init__(self, center = [0.0], biome = "plain", owner = 0, nTroop = 0, length = 0, ratioE = 1):
         self.center = center
+        self.ratioE = ratioE
         self.biome = biome
         self.owner = owner
         self.nTroop = nTroop
-        self.length = length  #30
+        self.length = length * self.ratioE  #30
         self.mod = 1.1547     # Escala do hexagono regular mod = 1.1547
         self.des = [0,0]          # Deslocamento do hexagono
         self.biomes_colors = {
@@ -45,7 +46,11 @@ class hexagon:
         self.des[1] += des[1]
 
     def setLen(self, length):
-        self.length = length
+        self.length = length * self.ratioE
+
+    def set_ratioE(self, ratioE):
+        self.lenght = (self.lenght / self.ratioE) * ratioE
+        self.ratioE = ratioE
 
     def getLen(self):
         return self.length
@@ -60,6 +65,7 @@ class hexagon:
         self.center2 = (self.mod*self.length, self.length)
 
         self.surface = pygame.Surface((2*self.mod*self.length,2*self.length), pygame.SRCALPHA)
+        print((2*self.mod*self.length,2*self.length))
 
         rect = self.surface.get_rect()
         rect.topleft = (self.center[0] + self.des[0] - self.mod*self.length, self.center[1] + self.des[1] - self.length)
