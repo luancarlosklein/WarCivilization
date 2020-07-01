@@ -14,16 +14,29 @@ class mapManager:
 		self.step = 5
 		self.rmClick = False	# Flag para o click do botao direito do mouse
 		self.biomes = ["plain", "forest", "snow", "desert"]
-		self.biomes = {
-			"plain" : (153,255,51),
+		self.biomes_colors = {
+			"plain" : (92,222,31),#(153,255,51),
 			"forest": (0,51,0),
 			"snow" : (220,255,255),
 			"desert" : (219,191, 28)
 		}
 
+		self.biomes_pos = {
+			"plain" : -1,
+			"forest": random.randrange(self.nCol*3,self.nCol*(self.nRow-3)),
+			"snow" : self.nCol,
+			"desert" : (self.nCol * (self.nRow - 1)) + int(self.nRow / 2) - 1
+		}
+
+		self.biomes_len = {
+			"plain" : -1,
+			"forest": random.randrange(0,self.nCol/3 + 1),
+			"snow" : random.randrange(0,self.nCol/3 + 1),
+			"desert" : random.randrange(0,self.nCol/3 + 1)
+		}
+
 		self.owners = ["France", "Brazil", "USA"]
 		self.clicked = 0
-
 
 		self.surface = pygame.Surface((260,160), pygame.SRCALPHA)
 
@@ -42,13 +55,14 @@ class mapManager:
 		start = [85,50]
 
 		for i in range (self.nRow):
+			biome = self.biomes[0]
 			for j in range (self.nCol):
-				biome = random.choice(list(self.biomes))
+
 				owner = random.choice(list(self.owners))
 				self.hexagons.append(hexagon(pos, biome, owner, 0, self.hexaLen, self.ratioE))
 				pos = [pos[0] + 3 * self.hexagons[0].mod * self.hexaLen * self.ratioE, pos[1]]
+			
 			if not deslocate:
-				biome = random.choice(list(self.biomes))
 				owner = random.choice(list(self.owners))
 				self.hexagons.append(hexagon(pos, biome, owner, 0, self.hexaLen, self.ratioE))
 			pos = [start[0], pos[1]+self.hexagons[0].getLen()]
@@ -57,6 +71,34 @@ class mapManager:
 				deslocate = 0
 			else:
 				deslocate = 1
+
+		it = 0
+		deslocate = 1
+
+		for i in range (self.nRow):
+			for j in range (self.nCol):
+				for bioma in self.biomes:
+					p = self.biomes_pos[bioma]
+					if (p == it):
+						self.hexagons[it].setBioma(bioma)
+					elif self.biomes_len[bioma] != -1:
+						if self.hexagons[p].distanceTo(self.hexagons[it]) <= self.biomes_len[bioma]:
+							self.hexagons[it].setBioma(bioma)
+				it += 1
+
+			if (deslocate):
+				deslocate = 0
+			else:
+				for bioma in self.biomes:
+					p = self.biomes_pos[bioma]
+					if (p == it):
+						self.hexagons[it].setBioma(bioma)
+					elif self.biomes_len[bioma] != -1:
+						if self.hexagons[p].distanceTo(self.hexagons[it]) <= self.biomes_len[bioma]:
+							self.hexagons[it].setBioma(bioma)
+				it += 1
+				deslocate = 1
+
 
 	def set_ratioE(self, ratioE):
 		self.ratioE = ratioE

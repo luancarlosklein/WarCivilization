@@ -12,7 +12,7 @@ class hexagon:
         self.mod = 1.1547     # Escala do hexagono regular mod = 1.1547
         self.des = [0,0]          # Deslocamento do hexagono
         self.biomes_colors = {
-			"plain" : (153,255,51),
+			"plain" : (45,160,23),
 			"forest": (0,51,0),
 			"snow" : (220,255,255),
 			"desert" : (219,191, 28)
@@ -34,6 +34,10 @@ class hexagon:
 
     def setColor(self, color):
         self.color = color
+
+    def setBioma(self, biome):
+        self.biome = biome
+        self.color = self.biomes_colors[biome]
 
     def setDes(self, des):
         self.des = des
@@ -65,7 +69,6 @@ class hexagon:
         self.center2 = (self.mod*self.length, self.length)
 
         self.surface = pygame.Surface((2*self.mod*self.length,2*self.length), pygame.SRCALPHA)
-        print((2*self.mod*self.length,2*self.length))
 
         rect = self.surface.get_rect()
         rect.topleft = (self.center[0] + self.des[0] - self.mod*self.length, self.center[1] + self.des[1] - self.length)
