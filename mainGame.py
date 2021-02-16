@@ -58,6 +58,9 @@ class MainGame:
         self.activeNow = 0
         self.stop = False
 
+        self.volEffect = 100
+        self.volMain = 100
+
     def execute(self):
 
         while not self.stop:
@@ -117,6 +120,32 @@ class MainGame:
             elif self.action == "240p":
                 self.currentRatio = 426/1980
                 changeReso = True
+
+            elif self.action == "effectVolumePlus":
+                if self.volEffect < 100:
+                    self.volEffect += 1
+                    self.configurationMenu.uptadteEffectVol(self.volEffect)
+                self.action = None
+            
+            elif self.action == "effectVolumeMinus":
+                if self.volEffect > 0:
+                    self.volEffect -= 1
+                    self.configurationMenu.uptadteEffectVol(self.volEffect)
+                self.action = None
+
+            elif self.action == "principalVolumePlus":
+                if self.volMain < 100:
+                    self.volMain += 1
+                    self.configurationMenu.uptadteMainVol(self.volMain)
+                self.action = None
+
+            elif self.action == "principalVolumeMinus":
+                if self.volMain > 0:
+                    self.volMain -= 1
+                    self.configurationMenu.uptadteMainVol(self.volMain)
+                self.action = None
+                    
+                
 
             if changeReso == True:
                 changeReso = False
