@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 from mapManager import mapManager
 from player import Player
 from inGameMenu import InGameMenu
@@ -155,12 +156,17 @@ class GameManager ():
          if (operation ==1 and self.attacks.troops>0):
             self.attacks.troops -=1
          if (operation ==2):
-            if (self.attacks.troops>self.chosenHex.nTroop):
-               self.chosenHex.nTroop = self.attacks.troops - self.chosenHex.nTroop
+            result = self.battleSimulation(self.attacks.troops, self.chosenHex.nTroop)
+            #if (self.attacks.troops>self.chosenHex.nTroop):
+            if (result > 0):
+               #self.chosenHex.nTroop = self.attacks.troops - self.chosenHex.nTroop
+               self.chosenHex.nTroop = result
                self.chosenHex.owner = player
                self.attackingHex.nTroop -=self.attacks.troops
-            elif (self.attacks.troops<self.chosenHex.nTroop):
-               self.chosenHex.nTroop = self.chosenHex.nTroop - self.attacks.troops
+            #elif (self.attacks.troops<self.chosenHex.nTroop):
+            elif(result<0):
+               #self.chosenHex.nTroop = self.chosenHex.nTroop - self.attacks.troops
+               self.chosenHex.nTroop = -result
                self.attackingHex.nTroop -=self.attacks.troops
             else:
                self.chosenHex.nTroop = 0
@@ -168,15 +174,14 @@ class GameManager ():
                self.attackingHex.nTroop -=self.attacks.troops
             self.showing = 1
             self.attacks.troops = 0
-            self.chosenHex = False
             self.attackingHex = False
       territory = self.map.check_click()
       if (territory):
          if (territory.owner == player):
             if self.attackingHex==False:
                self.attackingHex = territory
-         elif(territory.distanceTo(self.attackingHex)<1.1):
-               self.chosenHex = territory
+         elif(self.attackingHex and territory.distanceTo(self.attackingHex)<1.1):
+            self.chosenHex = territory
       if (operation == 3):
          self.showing = 1
          self.attacks.troops = 0
@@ -222,6 +227,8 @@ class GameManager ():
    def changeResolution(self, newRatio):
       return 1
 		
+   def battleSimulation(self, offensivePower, defensivePower):
+      return random.randint(-defensivePower, offensivePower)
 		
 
 		

@@ -213,7 +213,7 @@ class mapManager:
 			mouse = pygame.mouse.get_pos()
 			for hexagon in self.hexagons:
 				if (hexagon.checkClick(mouse)):
-					hexagon.setColor((50,50,50))
+					##hexagon.setColor((50,50,50))
 					return hexagon
 		return False
 
