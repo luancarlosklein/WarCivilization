@@ -7,8 +7,8 @@ import os
 class AttackMenu(menu.Menu):
    def __init__(self):
       super().__init__(os.path.join("images", "transp.png"))
-      self.buttons.append(Button(os.path.join("images", "transp.png"), (1530*self.ratio, 600*self.ratio), 100, 100, "+"))
-      self.buttons.append(Button(os.path.join("images", "transp.png"), (1330*self.ratio, 600*self.ratio), 100, 100, "-"))
+      self.buttons.append(Button(os.path.join("images", "transp.png"), (1650*self.ratio, 600*self.ratio), 100, 100, "+"))
+      self.buttons.append(Button(os.path.join("images", "transp.png"), (1450*self.ratio, 600*self.ratio), 100, 100, "-"))
       self.buttons.append(Button(os.path.join("images", "transp.png"), (1370*self.ratio, 750*self.ratio), 100, 250, "Select"))
       self.buttons.append(Button(os.path.join("images", "transp.png"), (1370*self.ratio, 850*self.ratio), 100, 250, "Return"))
       self.background = pygame.transform.scale(self.background,(1640*self.ratio , 1080*self.ratio))
