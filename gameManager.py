@@ -8,7 +8,7 @@ from draftMenu import DraftMenu
 from goal import Goal
 
 class GameManager ():
-   def __init__(self, np, screen):
+   def __init__(self, np, screen, volEffect, volMain, ratioE):
       self.player_list =[]
 
       self.n_players = np
@@ -23,6 +23,11 @@ class GameManager ():
       self.chosenHex = False
       self.attackingHex = False
       self.showing = 0
+
+      self.volEffect = volEffect
+      self.volMain = volMain
+      self.ratioE = ratioE
+      
    def gameLoop(self):
       color_white = (255, 255, 255)
       field = 0
@@ -32,7 +37,7 @@ class GameManager ():
       i = 0
       while i < self.n_players:
          i+=1
-         new_player = Player()
+         new_player = Player(self.volEffect, self.volMain, self.ratioE)
          if new_player.exists:
             self.player_list.append(new_player)
          new_player.mission = Goal (self.n_players)
@@ -139,7 +144,7 @@ class GameManager ():
 
    def createPlayers(self):
       while i<self.n_players:
-         self.player_list.append(Player())
+         self.player_list.append(Player(self.volEffect, self.volMain, self.ratioE))
          i+=1
 
    def attackProcedure(self, player, events):

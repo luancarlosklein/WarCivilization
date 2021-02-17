@@ -1,7 +1,16 @@
 import pygame
 import button
+## Classe Menu, que serve de base para todos os outros Menus do jogo
 class Menu:
     def __init__(self, backImage = "none", soundBack = "none", soundEff = "none", volBack = 0, volEff = 0, ratioImage = 1):
+        """
+        @param backImage: Imagem de fundo
+        @param soundBack: Som de fundo
+        @param soundEfF: Som de efeito
+        @param volBack: Volume do som de fundo
+        @param volEff: Volume dos efeitos
+        @param ratioImage: Parametro de ajuste das imagens
+        """
         self.backgroundImage = pygame.image.load(backImage).convert_alpha()
         self.buttons = []
         self.background = pygame.transform.scale(self.backgroundImage, (int(1920*ratioImage), int(1080*ratioImage)))
@@ -11,7 +20,6 @@ class Menu:
         self.volumeEffect = volEff
         self.ratio = ratioImage
 
-       
     def changeResolution(self, newRatio):
         self.ratio = newRatio
         self.background = pygame.transform.scale(self.backgroundImage, (int(1920*newRatio), int(1080*newRatio)))
@@ -32,11 +40,6 @@ class Menu:
 
     def checkClick(self, pos):
         saida = self.checkMouseOn(pos)
-        if saida != -1:
-            print (self.buttons[saida].getType())
-            if self.buttons[saida].getType() == "slider":
-                self.buttons[saida].setVariable(pos[0])
-                return -1
         return saida
 
     def actionButtonClicked(self, pos):
