@@ -50,7 +50,7 @@ class MainGame:
         
         
         self.configurationMenu = MenuConfiguration(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 0, self.initialRatio)
-        self.game = GameManager (1, self.screen, 1, 1, self.initialRatio)
+        self.game = GameManager (2, self.screen, 1, 1, self.initialRatio)
 
         self.pages = [self.startMenu, self.game, self.pauseMenu, self.configurationMenu, self.finalMenu]
         self.action = None

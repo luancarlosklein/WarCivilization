@@ -14,9 +14,10 @@ class GameManager ():
 
       self.n_players = np
       self.current_player = 1
-      self.commands = InGameMenu()
-      self.attacks = AttackMenu()
-      self.draft = DraftMenu()
+      print (ratioE)
+      self.commands = InGameMenu(ratioE)
+      self.attacks = AttackMenu(ratioE)
+      self.draft = DraftMenu(ratioE)
       self.map = mapManager()
       self.screen = screen
       self.active = True 
