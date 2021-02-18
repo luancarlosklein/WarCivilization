@@ -161,7 +161,7 @@ class GameManager ():
             self.attacks.troops +=1
          if (operation ==1 and self.attacks.troops>0):
             self.attacks.troops -=1
-         if (operation ==2):
+         if (operation ==2 and self.attacks.troops>0):
             result = self.battleSimulation(self.attacks.troops, self.chosenHex.nTroop)
             #if (self.attacks.troops>self.chosenHex.nTroop):
             if (result > 0):
