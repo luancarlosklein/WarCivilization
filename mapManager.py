@@ -209,11 +209,14 @@ class mapManager:
 						hexagon.configSurf()
 						
 	def check_click(self):
+		answer = False
 		if pygame.mouse.get_pressed()[0]:
 			mouse = pygame.mouse.get_pos()
 			for hexagon in self.hexagons:
-				if (hexagon.checkClick(mouse)):
+				if (answer == False and hexagon.checkClick(mouse)):
 					hexagon.setColor((50,50,50))
-					return hexagon
-		return False
+					answer = hexagon
+				else:
+					hexagon.setOwnerColor()
+		return answer
 

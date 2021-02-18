@@ -27,6 +27,7 @@ class hexagon:
             "France" : (0,0,255),
             "Brazil" : (0,51,0),
             "USA" : (255,0,0), 
+            "Egypt" : (245,154,34), 
         }
 
         self.color = self.biomes_colors[biome]
@@ -55,6 +56,12 @@ class hexagon:
     def set_ratioE(self, ratioE):
         self.lenght = (self.lenght / self.ratioE) * ratioE
         self.ratioE = ratioE
+
+    def setOwnerColor(self):
+        if (self.nTroop>0):
+            self.color = self.owner_color[self.owner.name]
+        else:
+            self.color =self.biomes_colors[self.biome]
 
     def getLen(self):
         return self.length
