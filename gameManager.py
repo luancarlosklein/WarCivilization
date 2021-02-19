@@ -84,10 +84,17 @@ class GameManager ():
                elif (operation == 0):
                   self.showing = field
                   self.commands.hidden = True
+
+               elif (operation == 4):
+                  self.chosenHex = 0
+                  
                elif (self.showing ==selecting):
-                  territory = self.map.check_click()
-                  if (territory):
-                     self.chosenHex = territory
+                  if pygame.mouse.get_pressed()[0]:
+                     territory = self.map.check_click()
+                     if (territory):
+                        self.chosenHex = territory
+                     else:
+                        self.chosenHex = 0
                   if (operation ==1):
                      self.showing = draft
                      self.chosenHex = 0
@@ -127,6 +134,7 @@ class GameManager ():
                if (territory):
                   if ((isinstance(territory.owner, Player))==False):
                      selecting = False
+               
                self.screen.fill(color_white)
                events = pygame.event.get()			     #variavel que controla o estado da intel. em "campo", ainda nao foi decidido se o player vai atacar ou recrutar
                self.showGameScreen(events)			     #mostra o campo com os exagonos
