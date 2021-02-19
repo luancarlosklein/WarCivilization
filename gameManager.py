@@ -160,11 +160,11 @@ class GameManager ():
    def attackProcedure(self, player, events):
       if self.chosenHex==False:
          if self.attackingHex == False:
-            operation = self.attacks.execute(self.screen, events, 0)
+            operation = self.attacks.execute(self.screen, events, 0, player)
          else:
-            operation = self.attacks.execute(self.screen, events, 1)
+            operation = self.attacks.execute(self.screen, events, 1,player)
       else:
-         operation = self.attacks.execute(self.screen, events, 2)
+         operation = self.attacks.execute(self.screen, events, 2, player)
          if (operation ==0 and self.attackingHex.nTroop > self.attacks.troops+1):
             self.attacks.troops +=1
          if (operation ==1 and self.attacks.troops>0):
@@ -206,9 +206,9 @@ class GameManager ():
 
    def draftProcedure(self, player, events):
       if self.chosenHex==False:
-         operation = self.draft.execute(self.screen, events, 0)
+         operation = self.draft.execute(self.screen, events, 0, player)
       else:
-         operation = self.draft.execute(self.screen, events, 1)
+         operation = self.draft.execute(self.screen, events, 1, player)
          if (operation ==0 and player.money>self.draft.troops):
             self.draft.troops +=1
          if (operation ==1 and self.draft.troops>0):

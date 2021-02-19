@@ -7,7 +7,7 @@ import os
 
 class InGameMenu(menu.Menu):
    def __init__(self, ratio):
-      super().__init__(os.path.join("images", "transparente.png"), soundBack = "none", soundEff = "none", volBack = 0, volEff = 0, ratioImage = ratio)
+      super().__init__(os.path.join("images", "backgroundMainMenu.png"), soundBack = "none", soundEff = "none", volBack = 0, volEff = 0, ratioImage = ratio)
       ##botao da seta para esconder e chamar o menu de jogo
       self.buttons.append(Button(os.path.join("images", "seta.png"), (int(1620*self.ratio), int(50*self.ratio)), int(50), int(50), "MAIS"))
       
@@ -33,6 +33,9 @@ class InGameMenu(menu.Menu):
 
       self.backInfo = pygame.image.load(os.path.join("images", "backgroundInformations.png")).convert_alpha()
       self.backInfo = pygame.transform.scale(self.backInfo,(int(587* self.ratio), int(600 * self.ratio)))
+
+      self.coin = pygame.image.load(os.path.join("images", "coin.png")).convert_alpha()
+      self.coin = pygame.transform.scale(self.coin,(int(50* self.ratio), int(50 * self.ratio)))
 
     ##mostrar na tela
    def show(self, screen, pos, player, chosenHex, showing):
@@ -69,10 +72,11 @@ class InGameMenu(menu.Menu):
 ################################################################################################################################
 
 ############################################ imprime o dinheiro do jogador do jogador ########################################################			
-
-         ##txt= (str(player.money)+' Coins')                          ##### armazena o texto
-         ##txtscreen = fontesys.render(txt, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
-         ##screen.blit(txtscreen,(int(1720*self.ratio),int(30* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
+         fontesys=pygame.font.SysFont(fonte, int(self.ratio*35))
+         screen.blit(self.coin,(int(1720*self.ratio),int(255* self.ratio)))
+         txt= (str(player.money))                          ##### armazena o texto
+         txtscreen = fontesys.render(txt, 1, (0,0,0))  	  ##### renderiza o texto na cor desejada
+         screen.blit(txtscreen,(int(1735*self.ratio),int(270* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
 
 ################################################################################################################################
          if (self.distribution == False):
