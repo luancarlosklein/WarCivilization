@@ -35,7 +35,7 @@ class mapManager:
 			"desert" : random.randrange(0,self.nCol/3 + 1)
 		}
 
-		self.owners = ["France", "Brazil", "USA"]
+		self.owners=["France","Brazil","USA","Egypt","Mongolia","Soviet Union","Greece","Pirates","Great Britain","Italy","Cuba","Spain","Japan","China","India","Portugal"]
 		self.clicked = 0
 
 		self.surface = pygame.Surface((260,160), pygame.SRCALPHA)

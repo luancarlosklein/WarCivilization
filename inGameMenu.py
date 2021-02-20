@@ -78,8 +78,7 @@ class InGameMenu(menu.Menu):
          txtscreen = fontesys.render(txt, 1, (0,0,0))  	  ##### renderiza o texto na cor desejada
          screen.blit(txtscreen,(int(1735*self.ratio),int(270* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
 
-################################################################################################################################
-         if (self.distribution == False):
+
 ############################################ imprime os botoes do jogador do jogador ########################################################			
 
             ##txt= ('RECRUIT')                          ##### armazena o texto
@@ -98,37 +97,9 @@ class InGameMenu(menu.Menu):
             ##txtscreen = fontesys.render(txt, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
             ##screen.blit(txtscreen,(int(1380*self.ratio),int(450* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
 
-            if ((isinstance(chosenHex, hexagon))== True):
-               screen.blit(self.backInfo, (0* self.ratio, 0* self.ratio))
-               font = pygame.font.Font(os.path.join("fonts", "seagram.ttf") , int(30*self.ratio))
-               if (isinstance(chosenHex.owner, Player))==True:
-                  
-                  txt1= (chosenHex.owner.name)  
-                  txt2 = ("Troops: "+str(chosenHex.nTroop))
-                  flag = chosenHex.owner.emblem
-                  flag = pygame.transform.scale(flag,(int(self.ratio*103) , int(self.ratio*122)))
-                  screen.blit(flag, (self.ratio*250,self.ratio*130))
-
-               else:
-                  txt1= ('Unexplored')   
-                  txt2 = ("Troops: 0" )
-                  
-               txt= ('X')                          ##### armazena o texto
-               txtscreen = font.render(txt, 1, (255,0,0))  	  ##### renderiza o texto na cor desejada
-               screen.blit(txtscreen,(int(550*self.ratio),int(0* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
-
-               txt3 = ('Biome: '+chosenHex.biome)
-               txtscreen = font.render(txt1, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
-               screen.blit(txtscreen,(int(110*self.ratio),int(270* self.ratio)))                 ##### coloca na posição 50,900 (tela FHD)
-               txtscreen = font.render(txt2, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
-               screen.blit(txtscreen,(int(110*self.ratio),int(330* self.ratio)))                 ##### coloca na posição 50,900 (tela FHD)
-               txtscreen = font.render(txt3, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
-               screen.blit(txtscreen,(int(110*self.ratio),int(390* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
-               
-
 ################################################################################################################################
-         else:
-           
+
+         if (self.distribution == True):           
 
 
             screen.blit(self.choose, (1370* self.ratio, 420* self.ratio)) 
@@ -146,7 +117,35 @@ class InGameMenu(menu.Menu):
          screen.blit(flag,(int(1530*self.ratio),int(100*self.ratio)))            
 
 ################################################################################################################################
+      
+      if ((isinstance(chosenHex, hexagon))== True and self.distribution == False):
+         screen.blit(self.backInfo, (0* self.ratio, 0* self.ratio))
+         font = pygame.font.Font(os.path.join("fonts", "seagram.ttf") , int(30*self.ratio))
+         if (isinstance(chosenHex.owner, Player))==True:
+            
+            txt1= (chosenHex.owner.name)  
+            txt2 = ("Troops: "+str(chosenHex.nTroop))
+            flag = chosenHex.owner.emblem
+            flag = pygame.transform.scale(flag,(int(self.ratio*103) , int(self.ratio*122)))
+            screen.blit(flag, (self.ratio*250,self.ratio*130))
 
+         else:
+            txt1= ('Unexplored')   
+            txt2 = ("Troops: 0" )
+            
+         txt= ('X')                          ##### armazena o texto
+         txtscreen = font.render(txt, 1, (255,0,0))     ##### renderiza o texto na cor desejada
+         screen.blit(txtscreen,(int(550*self.ratio),int(0* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
+
+         txt3 = ('Biome: '+chosenHex.biome)
+         txtscreen = font.render(txt1, 1, (255,255,255))      ##### renderiza o texto na cor desejada
+         screen.blit(txtscreen,(int(110*self.ratio),int(270* self.ratio)))                 ##### coloca na posição 50,900 (tela FHD)
+         txtscreen = font.render(txt2, 1, (255,255,255))      ##### renderiza o texto na cor desejada
+         screen.blit(txtscreen,(int(110*self.ratio),int(330* self.ratio)))                 ##### coloca na posição 50,900 (tela FHD)
+         txtscreen = font.render(txt3, 1, (255,255,255))      ##### renderiza o texto na cor desejada
+         screen.blit(txtscreen,(int(110*self.ratio),int(390* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
+         
+################################################################################################################################
 
    def execute(self, screen, events, player, chosenHex, showing =0):
       operation = -1

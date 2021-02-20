@@ -24,10 +24,22 @@ class hexagon:
 			"desert" : 0
         }
         self.owner_color = {
-            "France" : (0,0,255),
+            "France" : (0,7,148),
             "Brazil" : (0,51,0),
             "USA" : (255,0,0), 
             "Egypt" : (245,154,34), 
+            "Mongolia" : (90,151,250), 
+            "Soviet Union" : (168,0,0), 
+            "Greece" : (74,82,240), 
+            "Pirates" : (0,0,0), 
+            "Great Britain" : (191,112,99), 
+            "Italy" : (76,138,76), 
+            "Cuba" : (186,110,123), 
+            "Spain" : (255,74,74), 
+            "Japan" : (255,209,209), 
+            "China" : (115, 42, 42), 
+            "India" : (255,136,0), 
+            "Portugal" : (186,217,169), 
         }
 
         self.color = self.biomes_colors[biome]

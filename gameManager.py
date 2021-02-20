@@ -29,20 +29,20 @@ class GameManager ():
       self.volEffect = volEffect
       self.volMain = volMain
       self.ratioE = ratioE
-
+#####################################################################################################################
    def gameLoop(self):
       color_white = (255, 255, 255)
-      field = 0
+      field = 0        # representa os estados possiveis
       selecting = 1
       attack = 2
       draft = 3
       i = 0
-      while i < self.n_players:
+      while i < self.n_players:   #rotina para selecao de personagem dos players
          i+=1
          new_player = Player(self.volEffect, self.volMain, self.ratioE)
          if new_player.exists:
             self.player_list.append(new_player)
-         new_player.mission = Goal (self.n_players)
+         new_player.mission = Goal (self.n_players)  #selecao de objetivos, provisorio
          if new_player.mission.opponent == i:
             new_player.mission.opponent = 1
       while(pygame.mouse.get_pressed()[0]):
@@ -54,7 +54,7 @@ class GameManager ():
       ##Variavel usada para retornar o valor de pause
       pause = "pause"
       final = "final"
-      self.distribution()
+      self.distribution()  #etapa onde se escolhem os territorios
       self.commands.distribution = False
       self.game_started = 0
       i=0
@@ -75,30 +75,30 @@ class GameManager ():
                   return pause
                
 
-               if (operation == 3):
+               if (operation == 3 and self.showing == selecting):  #verifica se foi pressionado o end turn
                   end_turn = True
-               if (self.showing ==field and operation ==0):
+               if (self.commands.hidden == True and operation ==0):  #verifica se o menu deve ser "desescondido"
                   self.showing = selecting
                   self.commands.hidden = False
 
-               elif (operation == 0):
-                  self.showing = field
+               elif (operation == 0):    #verifica se o menu deve ser escondido
+                  #self.showing = field
                   self.commands.hidden = True
 
-               elif (operation == 4):
+               elif (operation == 4):    # x do papiro preto?
                   self.chosenHex = 0
                   
                elif (self.showing ==selecting):
                   if pygame.mouse.get_pressed()[0]:
-                     territory = self.map.check_click()
+                     territory = self.map.check_click() #verifica o hexagono clicado
                      if (territory):
                         self.chosenHex = territory
                      else:
                         self.chosenHex = 0
-                  if (operation ==1):
+                  if (operation ==1):       #verifica se foi escolhida a opcao recrutar
                      self.showing = draft
                      self.chosenHex = 0
-                  if (operation ==2):    
+                  if (operation ==2):       # atacar
                      self.showing = attack
                      self.chosenHex = 0
 
@@ -119,7 +119,8 @@ class GameManager ():
                         
             time.sleep (0.03)
             self.current_player = (self.current_player +1)%self.n_players
-
+#####################################################################################################################
+   
    def distribution (self):
       pause = "pause"	
       self.commands.hidden = False
@@ -151,52 +152,66 @@ class GameManager ():
             
       return True
 
+#####################################################################################################################
 
    def createPlayers(self):
       while i<self.n_players:
          self.player_list.append(Player())
          i+=1
 
+#####################################################################################################################         
+
    def attackProcedure(self, player, events):
-      if self.chosenHex==False:
+      if self.chosenHex==False:  #faltou selecionar ao menos um hexagono
          if self.attackingHex == False:
-            operation = self.attacks.execute(self.screen, events, 0, player)
+            operation = self.attacks.execute(self.screen, events, 0, player) #faltou escolher o de ataque
          else:
-            operation = self.attacks.execute(self.screen, events, 1,player)
+            operation = self.attacks.execute(self.screen, events, 1,player)  #faltou escolher o de defesa
       else:
-         operation = self.attacks.execute(self.screen, events, 2, player)
-         if (operation ==0 and self.attackingHex.nTroop > self.attacks.troops+1):
+         operation = self.attacks.execute(self.screen, events, 2, player)  #selecionar quantidade
+         if (operation ==0 and self.attackingHex.nTroop > self.attacks.troops+1): #foi clicado em "+"
             self.attacks.troops +=1
-         if (operation ==1 and self.attacks.troops>0):
+         if (operation ==1 and self.attacks.troops>0):#foi clicado em "-"
             self.attacks.troops -=1
-         if (operation ==2 and self.attacks.troops>0):
-            result = self.battleSimulation(self.attacks.troops, self.chosenHex.nTroop)
+         if (operation ==2 and self.attacks.troops>0):#foi clicado em atacar
+            atkMulti = self.calculateAtkMultiplier(self.attackingHex, self.chosenHex) #calculo dos bonus de batalha
+            defMulti = self.calculateDefMultiplier(self.chosenHex)
+            result = self.battleSimulation(atkMulti, defMulti, self.attacks.troops, self.chosenHex.nTroop)#simulacao da batalha
             #if (self.attacks.troops>self.chosenHex.nTroop):
-            if (result > 0):
+            if (result > 0):         #o ataque ganhou... result diz o numero de tropas restantes
                #self.chosenHex.nTroop = self.attacks.troops - self.chosenHex.nTroop
-               self.chosenHex.nTroop = result
+               if (isinstance(self.chosenHex.owner, Player) >0):  #efeitos de moral
+                  self.chosenHex.owner.decreaseMorale()
+                  self.attackingHex.owner.increaseMorale(False)
+               else:
+                  self.attackingHex.owner.increaseMorale(True)                  
+               self.chosenHex.nTroop = result       #troca o dono do hexagono
                self.chosenHex.owner = player
                self.attackingHex.nTroop -=self.attacks.troops
             #elif (self.attacks.troops<self.chosenHex.nTroop):
-            elif(result<0):
+            elif(result<0):     #defesa ganhou
                #self.chosenHex.nTroop = self.chosenHex.nTroop - self.attacks.troops
+               if (isinstance(self.chosenHex.owner, Player)):  #efeitos de moral
+                  self.chosenHex.owner.increaseMorale(False)
+               self.attackingHex.owner.decreaseMorale()
                self.chosenHex.nTroop = -result
                self.attackingHex.nTroop -=self.attacks.troops
-            else:
-               self.chosenHex.nTroop = 0
-               self.chosenHex.owner = False
-               self.attackingHex.nTroop -=self.attacks.troops
+            #else:
+            #   self.chosenHex.nTroop = 0
+            #   self.chosenHex.owner = False
+            #   self.attackingHex.nTroop -=self.attacks.troops
             self.showing = 1
             self.attacks.troops = 0
             self.attackingHex = False
-      territory = self.map.check_click()
+            return 1
+      territory = self.map.check_click()         #se foi selecionado um hexagono, seta como de ataque ou defesa
       if (territory):
          if (territory.owner == player):
             if self.attackingHex==False:
                self.attackingHex = territory
          elif(self.attackingHex and territory.distanceTo(self.attackingHex)<1.1):
             self.chosenHex = territory
-      if (operation == 3):
+      if (operation == 3):                       #abortar
          self.showing = 1
          self.attacks.troops = 0
          self.chosenHex = False
@@ -205,10 +220,10 @@ class GameManager ():
         
 
    def draftProcedure(self, player, events):
-      if self.chosenHex==False:
+      if self.chosenHex==False:         ##manda selecionar um hexagono
          operation = self.draft.execute(self.screen, events, 0, player)
       else:
-         operation = self.draft.execute(self.screen, events, 1, player)
+         operation = self.draft.execute(self.screen, events, 1, player)  #manda escolher a quantidade
          if (operation ==0 and player.money>self.draft.troops):
             self.draft.troops +=1
          if (operation ==1 and self.draft.troops>0):
@@ -219,6 +234,7 @@ class GameManager ():
             self.showing = 1
             self.draft.troops = 0
             self.chosenHex = False
+            return 1
       territory = self.map.check_click()
       if (territory):
          if (territory.owner == player):
@@ -230,6 +246,7 @@ class GameManager ():
       return 1
 
    def checkGoals(self, current_player):
+      # teste dos objetivos, provisorio
       if self.player_list[current_player].mission == 3:
          if len(self.player_list[current_player.mission.opponent].owned_territories) ==0 :
             return 0
@@ -240,9 +257,61 @@ class GameManager ():
 
    def changeResolution(self, newRatio):
       return 1
+
+######################################################################################################################
+
+   def calculateAtkMultiplier(self, atk_hexagon, def_hexagon):   #calculo dos bonus de ataque
+      multiplier = 50+atk_hexagon.owner.morale/2
+      ##Egypt
+      if (atk_hexagon.owner.name == "Egypt" and def_hexagon.biome == "desert"):
+         multiplier *=1.05
+      elif (atk_hexagon.owner.name == "Mongol" ):
+         multiplier *=1.03
+      elif (atk_hexagon.owner.name == "France" and def_hexagon.biome == "snow" ):
+         multiplier *=0.7
+      elif (atk_hexagon.owner.name == "Pirate" and (def_hexagon.des[0] == 0 or def_hexagon.des[1] == 0 or def_hexagon.des[0] == 18 or def_hexagon.des[1] == 8)):
+         multiplier *=0.7
+      elif (atk_hexagon.owner.name == "Italy" and def_hexagon.biome == "plain" ):
+         multiplier *=1.01* atk_hexagon.owner.hexBiomes[0]
+      if (atk_hexagon.owner.name == "Egypt" and def_hexagon.biome == "desert"):
+         multiplier *=1.05
+      return multiplier
+
+#########################################################################################################################
+
+   def calculateDefMultiplier(self, def_hexagon):   #calculo dos bonus de defesa
+      multiplier = 50+def_hexagon.owner.morale/2
+      ##Egypt
+      if (isinstance(def_hexagon.owner, Player)):
+         if (def_hexagon.owner.name == "Egypt" and def_hexagon.biome == "desert"):
+            multiplier *=1.05
+         elif (def_hexagon.owner.name == "China" ):
+            multiplier *=1.03
+         elif (def_hexagon.owner.name == "Soviet Union" and def_hexagon.biome == "snow" ):
+            multiplier *=1.3
+         elif (def_hexagon.owner.name == "Cuba" and def_hexagon.biome =="forest"):
+            multiplier *=0.7
+         elif (def_hexagon.owner.name == "Italy" and def_hexagon.biome == "plain" ):
+            multiplier *=1.01* atk_hexagon.owner.hexBiomes[0]
+
+      if (def_hexagon.biome == "snow"):
+         multiplier += 0.1
+      if (def_hexagon.biome == "plain"):
+         multiplier -= 0.1
+      if (def_hexagon.biome == "forest"):
+         multiplier += 0.05
+
+      return multiplier
+
 		
-   def battleSimulation(self, offensivePower, defensivePower):
-      return random.randint(-defensivePower, offensivePower)
+   def battleSimulation(self, offensiveMultiplier, defensiveMultiplier, atkTroops, defTroops):
+      while (defTroops>0 and atkTroops>0):  #termina quando um dos players nao tiver mais tropas
+          #ve quem ganhou de acordo com a forca
+         if (random.randint(-int(defensiveMultiplier* defTroops-1), int(offensiveMultiplier* atkTroops))>0):
+            defTroops -=1
+         else:
+            atkTroops -=1
+      return atkTroops - defTroops
 		
 
 		
