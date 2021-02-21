@@ -1,5 +1,5 @@
 import pygame
-import time
+import time, os
 import random
 from mapManager import mapManager
 from player import Player
@@ -29,8 +29,15 @@ class GameManager ():
       self.volEffect = volEffect
       self.volMain = volMain
       self.ratioE = ratioE
+      self.timeStartGame = None
+      self.screen = pygame.display.get_surface()
+      self.roundCurrent = 0
+
+      
+      
 #####################################################################################################################
    def gameLoop(self):
+
       color_white = (255, 255, 255)
       field = 0        # representa os estados possiveis
       selecting = 1
@@ -45,6 +52,7 @@ class GameManager ():
          new_player.mission = Goal (self.n_players)  #selecao de objetivos, provisorio
          if new_player.mission.opponent == i:
             new_player.mission.opponent = 1
+            
       while(pygame.mouse.get_pressed()[0]):
          pygame.event.get()
          time.sleep(0.03)
@@ -58,8 +66,14 @@ class GameManager ():
       self.commands.distribution = False
       self.game_started = 0
       i=0
+
+      
       while self.active:                                        ##enquanto o jogo estiver valendo
+        
+       
         while i < len(self.player_list):                      ##o turno de cada jogador
+            if i == 0:
+                self.roundCurrent += 1
             end_turn = False
             self.player_list[i].money+=len(self.player_list[i].owned_territories)
             while (end_turn == False):
@@ -67,7 +81,9 @@ class GameManager ():
                events = pygame.event.get()			     #variavel que controla o estado da intel. em "campo", ainda nao foi decidido se o player vai atacar ou recrutar
                self.showGameScreen(events)			     #mostra o campo com os exagonos
                operation = self.commands.execute(self.screen, events, self.player_list[i], self.chosenHex, self.showing )    ##imprime o menu, verifica os clicks e retorna o indice do botao retornado
-
+               self.drawRound(self.roundCurrent)
+               self.showClock()
+               
                ##Verifica se o retorno foi pause (cliclado na tecla esc), se sim, retorna o valor (para o loop)
                if (operation == pause):
                   self.active = False
@@ -108,8 +124,12 @@ class GameManager ():
                elif ( self.showing ==draft): 			     ##opção 1: atacar
                      self.draftProcedure(self.player_list[i], events)		     #realiza o recrutamento
 
+
+               
+               
                pygame.display.flip()
                pygame.display.update()
+               
             status = self.checkGoals(i)			     #analiza se algum player cumpriu seu objetivo
             i= (i+1)%self.n_players
 
@@ -126,11 +146,16 @@ class GameManager ():
       self.commands.hidden = False
       color_white = (255, 255, 255)
       choices = 0
+      if self.timeStartGame == None:
+         self.timeStartGame = int(time.time())
+         self.roundCurrent = 0
+         
       while (len(self.player_list[0].owned_territories)<5):
          for i in self.player_list:
             territory = 0
             selecting = True
             while selecting:
+               
                territory = self.map.check_click()
                if (territory):
                   if ((isinstance(territory.owner, Player))==False):
@@ -142,7 +167,7 @@ class GameManager ():
                operation = self.commands.execute(self.screen, events, i, 0 )    ##imprime o menu, verifica os clicks e retorna o indice do botao retornado
                if operation == pause:
                   return False
-
+               self.showClock()
                pygame.display.flip()
                pygame.display.update()
             i.owned_territories.append(territory)
@@ -152,6 +177,37 @@ class GameManager ():
             
       return True
 
+   def drawRound(self, roundGame):
+      rd = pygame.image.load(os.path.join("images", "round.png")).convert_alpha()
+      rd = pygame.transform.scale(rd,(int(50* self.ratioE), int(50 * self.ratioE)))
+      
+      rdStr = "Round: " + str(roundGame)
+      font2 = pygame.font.Font(os.path.join("fonts", "seagram.ttf") , int(30*self.ratioE))
+      rdStr = font2.render(rdStr, True, (0, 0, 0))
+
+      
+      self.screen.blit(rd, (710* self.ratioE, 10* self.ratioE))
+      self.screen.blit(rdStr,(int(765*self.ratioE),int(10* self.ratioE)))
+
+      
+   def showClock(self):
+      clock = pygame.image.load(os.path.join("images", "clock.png")).convert_alpha()
+      clock = pygame.transform.scale(clock,(int(50* self.ratioE), int(50 * self.ratioE)))
+      timeCurrent = time.time()
+      hours = str(int((timeCurrent - self.timeStartGame)/3600))
+      rest = (timeCurrent-self.timeStartGame)%3600
+      minutes = str(int(rest/60))
+      seconds = str(int(rest%60))
+
+      
+      timeActual = '{:0>2}'.format(hours) + ":" + '{:0>2}'.format(minutes) + ":" + '{:0>2}'.format(seconds)
+      ##timeActual = timeActual.strftime('%H:%M:%S')
+      font2 = pygame.font.Font(os.path.join("fonts", "seagram.ttf") , int(30*self.ratioE))
+      timeActual = font2.render(timeActual, True, (0, 0, 0))
+
+
+      self.screen.blit(clock, (940* self.ratioE, 10* self.ratioE))
+      self.screen.blit(timeActual,(int(1000*self.ratioE),int(10* self.ratioE)))
 #####################################################################################################################
 
    def createPlayers(self):

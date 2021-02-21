@@ -12,7 +12,7 @@ class MenuStart(menu.Menu):
 
         self.buttons.append(button.Button(os.path.join("images", "StartMenu", "globo.png"), (800, 550), 410, 380, "newgame", "button", ratioE))
         self.buttons.append(button.Button(os.path.join("images", "StartMenu", "janela.png"), (0, 180), 520, 140, "exit", "button", ratioE))
-        self.buttons.append(button.Button(os.path.join("images", "StartMenu", "livros.png"), (244, 780), 156, 360, "results", "button", ratioE))
+        self.buttons.append(button.Button(os.path.join("images", "StartMenu", "livros.png"), (244, 780), 156, 360, "history", "button", ratioE))
         self.buttons.append(button.Button(os.path.join("images", "StartMenu", "quadro.png"), (1050, 30), 300, 300, "results", "button", ratioE))
        
 

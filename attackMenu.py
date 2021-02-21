@@ -63,19 +63,10 @@ class AttackMenu(menu.Menu):
       fontesys=pygame.font.SysFont(fonte, int(self.ratio*60))           ##### usa a fonte padrão
 
       if (op == 0):
-         screen.blit(self.chooseAttack, (1370* self.ratio, 420* self.ratio)) 
-         ##txt= ('CHOOSE THE ATTACKING TERRITORY')                          ##### armazena o texto
-         ##txtscreen = fontesys.render(txt, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
-         ##screen.blit(txtscreen,(int(1250*self.ratio),int(650* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
-
+         screen.blit(self.chooseAttack, (1370* self.ratio, 350* self.ratio)) 
       if (op == 1):
-         screen.blit(self.chooseDefense, (1370* self.ratio, 420* self.ratio)) 
-         ##txt= ('CHOOSE THE DEFENDING TERRITORY')                          ##### armazena o texto
-         ##txtscreen = fontesys.render(txt, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
-         ##screen.blit(txtscreen,(int(1250*self.ratio),int(650* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
-
+         screen.blit(self.chooseDefense, (1370* self.ratio, 350* self.ratio)) 
       if (op == 2):
-         
          txt= ('Troops: ')                          ##### armazena o texto
          txtscreen = fontesys.render(txt, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
          screen.blit(txtscreen,(int(1470*self.ratio),int(535* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
@@ -89,23 +80,9 @@ class AttackMenu(menu.Menu):
          screen.blit(tMinus,(int(1470*self.ratio),int(600* self.ratio)))
 
          self.buttons[2].show(screen)
-         ##txt= ('SEND ATTACK')                          ##### armazena o texto
-         ##txtscreen = fontesys.render(txt, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
-         ##screen.blit(txtscreen,(int(1380*self.ratio),int(750* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
-
          txt= (str(self.troops))                          ##### armazena o texto
          txtscreen = fontesys.render(txt, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
          screen.blit(txtscreen,(int(1590*self.ratio),int(600* self.ratio)))                   ##### coloca na posição 50,900 (tela FHD)
-
-
-      #txt= ('RETURN')                          ##### armazena o texto
-      #txtscreen = fontesys.render(txt, 1, (255,255,255))  	  ##### renderiza o texto na cor desejada
-      #screen.blit(txtscreen,(int(1380*self.ratio),int(850* self.ratio)))                  ##### coloca na posição 50,900 (tela FHD)
-
-
-
-################################################################################################################################
-
 
 ################################################################################################################################
 

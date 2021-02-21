@@ -14,6 +14,7 @@ from gameManager import GameManager
 
 from menuFinal import MenuFinal
 
+from menuHistory import MenuHistory
 
 from menuConfiguration import MenuConfiguration
 
@@ -48,11 +49,13 @@ class MainGame:
 
         self.finalMenu = MenuFinal(os.path.join("images", "inglesias.jpg"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
         
+        self.historyMenu = MenuHistory(os.path.join("images", "backgoundHistory.png"), os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 1, 1, self.initialRatio)
+        
         
         self.configurationMenu = MenuConfiguration(os.path.join("sounds", "startMenuGame.mp3"), os.path.join("sounds", "mousePass.ogg"), 0, 0, self.initialRatio)
         self.game = GameManager (2, self.screen, 1, 1, self.initialRatio)
 
-        self.pages = [self.startMenu, self.game, self.pauseMenu, self.configurationMenu, self.finalMenu]
+        self.pages = [self.startMenu, self.game, self.pauseMenu, self.configurationMenu, self.finalMenu, self.historyMenu]
         self.action = None
         self.activeNow = 0
         self.stop = False
@@ -89,6 +92,9 @@ class MainGame:
                 pygame.quit()
                 self.stop = True
 
+            elif self.action == "history":
+                self.activeNow = 5
+                
             elif self.action == "configuration":
                 self.activeNow = 3
 
