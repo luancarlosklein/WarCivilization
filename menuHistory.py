@@ -10,7 +10,41 @@ class MenuHistory(menu.Menu):
         ##Salva os botões utilizados
 
         self.screen = pygame.display.get_surface()
-        self.buttons.append(button.Button(os.path.join("images", "bookEgypt.png"), (1450, 112), 968, 170, "Egypt", "button", ratioE))
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookChina.png"), (-28*self.ratio, 281*self.ratio), 1214*self.ratio, 239*self.ratio, "China", "button", ratioE))
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookGreatBritain.png"), (140*self.ratio, 42*self.ratio), 1408*self.ratio, 246*self.ratio, "GreatBritain", "button", ratioE))
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookJapan.png"), (410*self.ratio, 120*self.ratio), 1337*self.ratio, 221*self.ratio, "GreatBritain", "button", ratioE))
+
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookItaly.png"), (540*self.ratio, 190*self.ratio), 1337*self.ratio, 221*self.ratio, "GreatBritain", "button", ratioE))
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookSpain.png"), (660*self.ratio, 190*self.ratio), 1408*self.ratio, 246*self.ratio, "GreatBritain", "button", ratioE))
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookPortugal.png"), (800*self.ratio, 150*self.ratio), 1549*self.ratio, 271*self.ratio, "Portugal", "button", ratioE))
+
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookBrazil.png"), (1100*self.ratio, 150*self.ratio), 1337*self.ratio, 221*self.ratio, "Brazil", "button", ratioE))
+
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookIndia.png"), (1280*self.ratio, 100*self.ratio), 1471*self.ratio, 294*self.ratio, "Brazil", "button", ratioE))
+
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookMongolia.png"), (1510*self.ratio, 160*self.ratio), 1337*self.ratio, 221*self.ratio, "Brazil", "button", ratioE))
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookCuba.png"), (1680*self.ratio, 160*self.ratio), 1337*self.ratio, 221*self.ratio, "Brazil", "button", ratioE))
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookUnionSovietc.png"), (1880*self.ratio, 160*self.ratio), 1337*self.ratio, 221*self.ratio, "Brazil", "button", ratioE))
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookEgypt.png"), (2039*self.ratio, 157*self.ratio), 1361*self.ratio, 239*self.ratio, "Egypt", "button", ratioE))
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookGreece.png"), (2320*self.ratio, 160*self.ratio), 1337*self.ratio, 221*self.ratio, "Brazil", "button", ratioE))
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookUSA.png"), (2530*self.ratio, 200*self.ratio), 1337*self.ratio, 221*self.ratio, "Brazil", "button", ratioE))
+
+
+        self.buttons.append(button.Button(os.path.join("images", "books", "bookPirates.png"), (860*self.ratio, -90*self.ratio), 221*self.ratio, 1337*self.ratio, "Brazil", "button", ratioE))
+
+
         
         self.egypt = pygame.image.load(os.path.join("images", "historyEgypt.png")).convert_alpha()
         self.egypt = pygame.transform.scale(self.egypt,(int(1920* self.ratio), int(1080 * self.ratio)))
@@ -55,7 +89,9 @@ class MenuHistory(menu.Menu):
         else:
             if self.showing == -1:
                 self.showing = self.buttons[saida].getAction()
-            return "history"
+            self.showing == -1
+            return saida
+            ##return "history"
 
     def actionButtonClicked(self, pos):
         i = self.checkClick(pos)
