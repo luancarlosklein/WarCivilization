@@ -20,7 +20,7 @@ class mapManager:
 			"snow" : (220,255,255),
 			"desert" : (219,191, 28)
 		}
-
+		self.biome_count = [0,0,0,0]
 		self.biomes_pos = {
 			"plain" : -1,
 			"forest": random.randrange(self.nCol*3,self.nCol*(self.nRow-3)),
@@ -81,9 +81,11 @@ class mapManager:
 					p = self.biomes_pos[bioma]
 					if (p == it):
 						self.hexagons[it].setBioma(bioma)
+						self.increase_bio_count(bioma)
 					elif self.biomes_len[bioma] != -1:
 						if self.hexagons[p].distanceTo(self.hexagons[it]) <= self.biomes_len[bioma]:
 							self.hexagons[it].setBioma(bioma)
+							self.increase_bio_count(bioma)
 				it += 1
 
 			if (deslocate):
@@ -93,11 +95,14 @@ class mapManager:
 					p = self.biomes_pos[bioma]
 					if (p == it):
 						self.hexagons[it].setBioma(bioma)
+						self.increase_bio_count(bioma)
 					elif self.biomes_len[bioma] != -1:
 						if self.hexagons[p].distanceTo(self.hexagons[it]) <= self.biomes_len[bioma]:
 							self.hexagons[it].setBioma(bioma)
+							self.increase_bio_count(bioma)
 				it += 1
 				deslocate = 1
+		self.biome_count[0] = len(self.hexagons) - (self.biome_count[1]+self.biome_count[2]+self.biome_count[3])
 
 
 	def set_ratioE(self, ratioE):
@@ -219,4 +224,20 @@ class mapManager:
 				else:
 					hexagon.setOwnerColor()
 		return answer
+
+	def check_corners(self):
+		owner = self.hexagons[0].owner
+		if (self.hexagons [self.nCol-1] == owner and self.hexagons[self.nRow*self.nCol-1].owner == owner and self.hexagons[self.nRow*self.nCol- self.nCol].owner == owner ):
+			return owner
+		return False
+
+	def increase_bio_count(self, biome):
+		if (biome == "plain"):
+			self.biome_count[0] +=1
+		elif (biome == "forest"):
+			self.biome_count[1] +=1
+		elif (biome == "snow"):
+			self.biome_count[2] +=1
+		elif (biome == "desert"):
+			self.biome_count[3] +=1
 

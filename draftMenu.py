@@ -8,8 +8,8 @@ class DraftMenu(menu.Menu):
    def __init__(self, ratio):
       super().__init__(os.path.join("images", "backgroundMainMenu.png"), soundBack = "none", soundEff = "none", volBack = 0, volEff = 0, ratioImage = ratio)
       ## o nome dos botoes ja diz o q eles sao...
-      self.buttons.append(Button(os.path.join("images", "transp.png"), (int(1630*self.ratio), int(600*self.ratio)), int(100), int(100), "+"))
-      self.buttons.append(Button(os.path.join("images", "transp.png"), (int(1430*self.ratio), int(600*self.ratio)), int(100), int(100), "-"))
+      self.buttons.append(Button(os.path.join("images", "transp.png"), (int(1655*self.ratio), int(600*self.ratio)), int(50), int(50), "+"))
+      self.buttons.append(Button(os.path.join("images", "transp.png"), (int(1455*self.ratio), int(600*self.ratio)), int(50), int(50), "-"))
       self.buttons.append(Button(os.path.join("images", "buttonSelect.png"), (int(1470*self.ratio), int(700*self.ratio)), int(70*self.ratio), int(280*self.ratio), "Select"))
       self.buttons.append(Button(os.path.join("images", "buttonCancel.png"), (int(1480*self.ratio), int(850*self.ratio)), int(100*self.ratio), int(300*self.ratio), "Return"))
 

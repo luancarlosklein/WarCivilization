@@ -50,8 +50,8 @@ class GameManager ():
          if new_player.exists:
             self.player_list.append(new_player)
          new_player.mission = Goal (self.n_players)  #selecao de objetivos, provisorio
-         if new_player.mission.opponent == i:
-            new_player.mission.opponent = 1
+         if new_player.mission.opponent > i:
+            new_player.mission.opponent = i+1
             
       while(pygame.mouse.get_pressed()[0]):
          pygame.event.get()
@@ -75,7 +75,7 @@ class GameManager ():
             if i == 0:
                 self.roundCurrent += 1
             end_turn = False
-            self.player_list[i].money+=len(self.player_list[i].owned_territories)
+            self.player_list[i].money+= int(self.player_list[i].earnings)
             while (end_turn == False):
                self.screen.fill(color_white)
                events = pygame.event.get()			     #variavel que controla o estado da intel. em "campo", ainda nao foi decidido se o player vai atacar ou recrutar
@@ -130,7 +130,7 @@ class GameManager ():
                pygame.display.flip()
                pygame.display.update()
                
-            status = self.checkGoals(i)			     #analiza se algum player cumpriu seu objetivo
+            status = self.player_list[i].check_goal(self.player_list, self.map)
             i= (i+1)%self.n_players
 
             if status != 0:					     #em caso positivo, retorna o vencedor
@@ -170,7 +170,7 @@ class GameManager ():
                self.showClock()
                pygame.display.flip()
                pygame.display.update()
-            i.owned_territories.append(territory)
+            i.gainHex(territory, True)
             territory.owner = i
             territory.nTroop = 1
             time.sleep (0.03)
@@ -231,17 +231,22 @@ class GameManager ():
             self.attacks.troops -=1
          if (operation ==2 and self.attacks.troops>0):#foi clicado em atacar
             atkMulti = self.calculateAtkMultiplier(self.attackingHex, self.chosenHex) #calculo dos bonus de batalha
-            defMulti = self.calculateDefMultiplier(self.chosenHex)
+            if (isinstance (self.chosenHex, Player)):
+               defMulti = self.calculateDefMultiplier(self.chosenHex)
+            else:
+               defMulti = 0
             result = self.battleSimulation(atkMulti, defMulti, self.attacks.troops, self.chosenHex.nTroop)#simulacao da batalha
             #if (self.attacks.troops>self.chosenHex.nTroop):
             if (result > 0):         #o ataque ganhou... result diz o numero de tropas restantes
                #self.chosenHex.nTroop = self.attacks.troops - self.chosenHex.nTroop
                if (isinstance(self.chosenHex.owner, Player) >0):  #efeitos de moral
                   self.chosenHex.owner.decreaseMorale()
+                  self.chosenHex.owner.loseHex(self.chosenHex)
                   self.attackingHex.owner.increaseMorale(False)
                else:
                   self.attackingHex.owner.increaseMorale(True)                  
                self.chosenHex.nTroop = result       #troca o dono do hexagono
+               player.gainHex(self.chosenHex, False)
                self.chosenHex.owner = player
                self.attackingHex.nTroop -=self.attacks.troops
             #elif (self.attacks.troops<self.chosenHex.nTroop):
@@ -363,7 +368,7 @@ class GameManager ():
    def battleSimulation(self, offensiveMultiplier, defensiveMultiplier, atkTroops, defTroops):
       while (defTroops>0 and atkTroops>0):  #termina quando um dos players nao tiver mais tropas
           #ve quem ganhou de acordo com a forca
-         if (random.randint(-int(defensiveMultiplier* defTroops-1), int(offensiveMultiplier* atkTroops))>0):
+         if (random.randint(-int(defensiveMultiplier-1), int(offensiveMultiplier))>0):
             defTroops -=1
          else:
             atkTroops -=1
